@@ -21,7 +21,7 @@ export default function Header() {
         <Link to="/" className="text-gray-700 hover:text-indigo-600 transition">Home</Link>
         <Link to="/features" className="text-gray-700 hover:text-indigo-600 transition">Features</Link>
         <Link to="/ai" className="text-gray-700 hover:text-indigo-600 transition">AI Assistant</Link>
-        <Link to="/notebooks" className="text-gray-700 hover:text-indigo-600 transition">Resources</Link>
+        <Link to="/resources" className="text-gray-700 hover:text-indigo-600 transition">Resources</Link>
       </nav>
 
       {/* Buttons */}
@@ -44,7 +44,7 @@ export default function Header() {
           <Link to="/" className="text-gray-700 hover:text-indigo-600 transition" onClick={() => setMenuOpen(false)}>Home</Link>
           <Link to="/features" className="text-gray-700 hover:text-indigo-600 transition" onClick={() => setMenuOpen(false)}>Features</Link>
           <Link to="/ai" className="text-gray-700 hover:text-indigo-600 transition" onClick={() => setMenuOpen(false)}>AI Assistant</Link>
-          <Link to="/notebooks" className="text-gray-700 hover:text-indigo-600 transition" onClick={() => setMenuOpen(false)}>Resources</Link>
+          <Link to="/resources" className="text-gray-700 hover:text-indigo-600 transition" onClick={() => setMenuOpen(false)}>Resources</Link>
           <Link to="/login" className="text-indigo-500 font-medium" onClick={() => setMenuOpen(false)}>Sign In</Link>
           <Link to="/signup"
             className="border-2 border-indigo-500 text-indigo-500 hover:bg-indigo-600 hover:text-white transition rounded-full px-4 py-1"

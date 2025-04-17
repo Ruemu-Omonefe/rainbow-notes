@@ -5,35 +5,11 @@ import img from "../assets/img1.png"
 // import book2 from "../assets/book2.png"
 // import book3 from "../assets/book3.png"
 import AnimatedNote from "./AnimatedNote";
-import style from "../styes/home.module.css"
-import { useEffect, useState } from "react";
 import FlipBook from "./flipBook";
 
 
 function Home() {
-  const [count, setCount] = useState(40); 
 
-  useEffect(() => {  
-    const handleResize = () => {  
-      if (window.innerWidth < 468) {
-        setCount(10);
-      } else if (window.innerWidth < 768){
-        setCount(20);
-      } else if (window.innerWidth < 1200){
-        setCount(30);
-      } else {  
-        setCount(40);  
-      }  
-    };  
-
-    handleResize();
-    window.addEventListener('resize', handleResize);  
-
-    return () => {  
-      window.removeEventListener('resize', handleResize);  
-    };  
-  }, []);  
-  
     return (
       <>
       {/* Hero Section */}
@@ -96,21 +72,6 @@ function Home() {
             <p className="text-3xl md:text-5xl font-semibold">Writing with Notebook’s advanced AI assistant</p>
           </div>
         </div>
-        {/* Footer */}
-       <div className="foot mt-30 ">
-        <div className={style.curve}>
-        {[...Array(count)].map((_, index) => (  
-        <div key={index} className={style.c}></div>  
-      ))}  
-        </div>
-        <footer className=" px-5 pb-5 pt-2">
-            <div className={style.main}>
-              <p className="text-white text-center">Copyright © 2025 by Rainbow | All Right Reserved</p>
-            </div>
-        </footer>
-       </div>
-
- 
       </>
     );
   }

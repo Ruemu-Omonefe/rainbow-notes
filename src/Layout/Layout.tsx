@@ -6,7 +6,7 @@ function Layout() {
 
   return (
     <>
-    <Navbar />
+    {/* <Navbar /> */}
     <div className="md:mt-0 mt-18">
       <Sidemenu />
       <main className="main-content">
