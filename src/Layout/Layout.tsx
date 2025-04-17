@@ -1,6 +1,5 @@
 import { Outlet } from "react-router-dom"
 import Navbar from "../Common/Navbar"
-import styles from './Layout.module.scss'
 import Sidemenu from "../Common/Sidemenu"
 
 function Layout() {
