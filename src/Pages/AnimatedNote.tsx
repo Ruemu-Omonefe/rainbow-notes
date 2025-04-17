@@ -56,7 +56,7 @@ export default function AnimatedNote() {
 
   return (
     <div className="mt-10">
-      <div className="relative w-80 h-56 bg-gray-100 rounded-lg shadow-lg p-6 text-gray-900 transform rotate-2 overflow-hidden">
+      <div className="relative sm:w-80 w-68 h-56 bg-gray-100 rounded-lg shadow-lg p-6 text-gray-900 transform rotate-2 overflow-hidden">
         <p className="text-lg italic">"Jot down your ideas..."</p>
 
         {/* Animated Text */}

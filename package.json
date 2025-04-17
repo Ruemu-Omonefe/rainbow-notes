@@ -20,6 +20,7 @@
     "framer-motion": "^12.6.2",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
+    "react-pageflip": "^2.0.3",
     "react-router-dom": "^7.4.0"
   },
   "devDependencies": {

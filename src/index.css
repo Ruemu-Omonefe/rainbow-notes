@@ -1,5 +1,9 @@
-
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Poppins:wght@300;400;500;600;700;800&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
 @import "tailwindcss";
+
+/* body{
+  font-family: Poppins, Montserrat, sans-serif;
+} */
 
 @layer utilities {
   .animate-fadeIn {
@@ -27,8 +31,6 @@
       transform: rotateY(180deg);
     }
   }
-
-  
 }
 
 
