@@ -41,7 +41,7 @@ function Login() {
                 </span>
               </div>  
               </div>
-                <Button variant="contained" className="w-full bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 rounded-lg" disabled> Login </Button>
+                <Button variant="contained" className="w-full bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 rounded-lg" > <Link to="/notebooks">Login</Link> </Button>
                 <p className="text-sm text-center text-gray-600 mt-4">
                   Don't have an account?{" "}
                   <Link to="/register" className="text-blue-500"> Sign Up</Link>
