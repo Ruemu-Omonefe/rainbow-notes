@@ -36,7 +36,6 @@ function App() {
             </Route>
             {/* Note Layout */}
             <Route path="/" element={<Layout />}>
-              <Route index element={<Home />} />
               <Route path="notebooks" element={<Notebooks />} />
               <Route path="notebooks" element={<NotebookList />} />
               {/* <Route path="ai-helper" element={<AIHelper />} /> */}
@@ -44,15 +43,6 @@ function App() {
             </Route>
             <Route path="login" element={<Login />} />
             <Route path="register" element={<Signup />} />
-
-
-            {/* Pages that shouldn't have Navbar/Sidebar/Footer */}
-            {/* <Route path="/login" element={<Login />} />
-            <Route path="/" element={<Home />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/dashboard" element={<Dashboard />} />
-            <Route path="/notebook/:id" element={<NotebookView />} />
-            <Route path="*" element={<Navigate to="/" />} /> */}
           </Routes>
         </Suspense>
       </Router>
