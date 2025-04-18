@@ -2,8 +2,33 @@
   .notebookCover{
     height: 200px;
     width: 165px;
-    border-radius: 0 8px 8px 0;
     background-color: gold;
     background-size: contain;
   }
-
+  
+  .cover {  
+    // width: 165px;  
+    height: 200px;
+    // border-radius: 0 8px 8px 0;
+    background-size: contain;  
+    background-repeat: no-repeat;  
+    background-position: center;  
+  }  
+  .background2 {  
+    width: 165px;  
+    height: 200px;
+    border-radius: 0 8px 8px 0;
+    background-image: url('../assets/cover.png');  
+    background-size:contain;  
+    background-repeat: no-repeat;  
+    background-position: center;  
+  }  
+  .background3 {  
+    width: 165px;  
+    height: 200px;
+    border-radius: 0 8px 8px 0;
+    background-image: url('../assets/book-cover4.png');  
+    background-size: cover;  
+    background-repeat: no-repeat;  
+    background-position: center;  
+  }  
