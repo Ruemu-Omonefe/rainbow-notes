@@ -16,6 +16,7 @@ function Header() {
   const [selectedName, setSelectedName] = useState('Notebooks');
   const [menuOpen, setMenuOpen] = useState(false);
   const [moreMenuOpen, setMoreMenuOpen] = useState(false);
+  const [addMenu, setAddMenu] = useState(false);
 
   return (
     <>
@@ -24,9 +25,7 @@ function Header() {
         <div className="absolute left-2 sm:left-4 md:left-6 flex items-center gap-2">
           <Link to="/" className="flex gap-1 items-center">
             <img src={logo} alt="Notebook" className="h-5 md:h-6 object-contain" />
-            <p className="flex" style={{ fontFamily: 'Poppins' }}>
-              <span className="hidden sm:block mr-1">Rainbow </span> Note
-            </p>
+            <p className="flex" style={{ fontFamily: 'Poppins' }}>Rainbow Note </p>
           </Link>
         </div>
 
@@ -77,16 +76,31 @@ function Header() {
 
         {/* Right Nav Dropdown (Mobile) */}
         <div className="absolute right-2 sm:right-4 md:hidden">
-          <button onClick={() => setMoreMenuOpen(!moreMenuOpen)} className="text-gray-700 hover:bg-gray-200 rounded-sm p-2">
+          <button onClick={() => {setMoreMenuOpen(!moreMenuOpen); setAddMenu(false);}} className="text-gray-700 hover:bg-gray-200 rounded-sm p-2">
             <MoreVertIcon />
           </button>
           {moreMenuOpen && (
             <div className="absolute right-0 mt-2 bg-white shadow-lg rounded z-10 py-1 flex flex-col items-center">
-              <Link to="/" className="block px-4 py-2" onClick={() => setMoreMenuOpen(false)}>
-                <span className="rounded-sm bg-black p-1 text-white flex justify-center">
-                  <AddIcon />
-                </span>
-              </Link>
+               {/* Menu for adding new notes */}
+               <div className="relative">
+                  <div className="block px-4 py-2" onClick={() => setAddMenu(prev => !prev)}>
+                    <span className="rounded-sm bg-black p-1 text-white flex justify-center">
+                      <AddIcon />
+                    </span>
+                  </div>
+                  {addMenu && (
+                    <div className="fixed top-17 right-20 bg-black text-white shadow-lg rounded z-50 p-3 w-48 space-y-2">
+                      <Link to="/" className="block px-4 py-2 hover:bg-neutral-700" onClick={() => { setAddMenu(false); setMoreMenuOpen(false); }}>
+                        <MenuBookIcon /> Notebook
+                      </Link>
+                      <Link to="/" className="block px-4 py-2 hover:bg-neutral-700" onClick={() => { setAddMenu(false); setMoreMenuOpen(false); }}>
+                        <KeyboardVoiceIcon /> Audio
+                      </Link>
+                    </div>
+                  )}
+
+                </div>
+              {/* Menu Ends */}
               <Link to="/" className="block px-4 py-2" onClick={() => setMoreMenuOpen(false)}>
                 <SettingsIcon />
               </Link>
@@ -104,9 +118,25 @@ function Header() {
 
         {/* Right Nav (Desktop) */}
         <nav className="hidden md:flex absolute right-4 space-x-6 items-center">
-          <Link to="/" className="text-white bg-black transition rounded-sm flex items-center p-1">
+          {/* <Link to="/" className="text-white bg-black transition rounded-sm flex items-center p-1">
             <AddIcon />
-          </Link>
+          </Link> */}
+          <div className="relative">
+            <button onClick={() => setAddMenu(!addMenu)} className="text-white bg-black transition rounded-sm flex items-center p-1">
+              <AddIcon />
+            </button>
+            {addMenu && (
+              <div className="absolute left-0 mt-4 py-2 bg-black text-white shadow-lg rounded z-10 min-w-max">
+                <Link to="/" className="block px-4 py-2 hover:bg-neutral-700 " onClick={() => setMoreMenuOpen(false)}>
+                  <MenuBookIcon /> Notebook
+                </Link>
+                <Link to="/" className="block px-4 py-2 hover:bg-neutral-700 " onClick={() => setAddMenu(false)}>
+                  <KeyboardVoiceIcon /> Audio
+                </Link>
+              </div>
+            )}
+          </div>
+
           <Link to="/" className="text-gray-700 hover:bg-gray-200 rounded-sm flex items-center p-2">
             <SettingsIcon />
           </Link>

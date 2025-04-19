@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from "react";
-import styles from "../styes/flipBook.module.css";
+import styles from "../styles/flipBook.module.css";
 import img from "../assets/book.png"
 import img2 from "../assets/book2.png"
 

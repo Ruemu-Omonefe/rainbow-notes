@@ -1,0 +1,67 @@
+/* notebookItem.module.css */
+
+.flipbook-container {
+  position: relative;
+  width: 100%;
+  height: 600px;
+  margin-top: 20px;
+  perspective: 1500px; /* This defines the 3D space for the flip effect */
+}
+
+.flipbook-page {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+  transform-origin: center;
+  transition: transform 0.8s ease;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.page {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: #fff;
+  border: 1px solid #ddd;
+  padding: 20px;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+.page.cover {
+  background-color: #f0f0f0;
+  text-align: center;
+  font-size: 24px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.page.content {
+  width: 90%;
+  height: 80%;
+  resize: none;
+}
+
+.page-back {
+  background-color: #f5f5f5;
+  text-align: center;
+  font-size: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.flipbook-controls {
+  margin-top: 10px;
+  text-align: center;
+}
+
+.flipbook-page.flip {
+  transform: rotateY(-180deg); /* This simulates the page flip */
+}

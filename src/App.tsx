@@ -12,7 +12,8 @@ const NotebookList = React.lazy(() => import("./Notebook/NotebookList"));
 const Signup = React.lazy(() => import("./Auth/Signup"));
 const AI = React.lazy(() => import("./Pages/AIAssistant"));
 const Features = React.lazy(() => import("./Pages/Features"));
-const Notebooks = React.lazy(() => import("./Notebook/NotebookList"));
+const NotebookItem = React.lazy(() => import("./Notebook/NotebookItem"));
+const SingleNote = React.lazy(() => import("./Notebook/SingleNote"));
 
 function App() {
   return (
@@ -36,8 +37,9 @@ function App() {
             </Route>
             {/* Note Layout */}
             <Route path="/" element={<Layout />}>
-              <Route path="notebooks" element={<Notebooks />} />
+              <Route path="notecard" element={<NotebookItem />} />
               <Route path="notebooks" element={<NotebookList />} />
+              <Route path="single-note" element={<SingleNote />} />
               {/* <Route path="ai-helper" element={<AIHelper />} /> */}
               <Route path="*" element={<Navigate to="/" />} />
             </Route>

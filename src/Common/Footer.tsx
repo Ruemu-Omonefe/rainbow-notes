@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import style from "../styes/footer.module.css";
+import style from "../styles/footer.module.css";
 
 function Footer() {
   const [count, setCount] = useState(40);
