@@ -90,9 +90,21 @@ function Login() {
 
     return (
       <>
-        <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
-          <motion.div initial={{ opacity: 0, y: -50 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}>
-            <Card className="w-96 p-6 shadow-lg bg-white rounded-2xl">
+      {isLoading && (
+        <div className="flex items-center justify-center min-h-screen bg-gray-100">
+          <div className="text-center">
+            <p className="text-lg font-semibold">Loading...</p>
+          </div>
+        </div>
+      )}
+      <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
+        <motion.div initial={{ opacity: 0, y: -50 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}>
+          <Card className="w-96 p-6 shadow-lg bg-white rounded-2xl">
+            {error && (
+              <div className="bg-red-100 text-red-700 p-3 rounded mb-4">
+                <p>{error}</p>
+              </div>
+            )}
             <Link to="/">
               <img src={logo} alt="Notebook" className="h-12 mt-5 ml-3 object-contain" />
             </Link>
@@ -137,3 +149,12 @@ function Login() {
   }
   
   export default Login
+
+
+  export async function Loader() {
+    return (
+      <>
+        <p className="">Loading...</p>
+      </>
+    )
+  }

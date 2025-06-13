@@ -1,6 +1,6 @@
 // import { useState } from 'react'
 
-import { BrowserRouter, Navigate, Route, BrowserRouter as Router, Routes,} from "react-router-dom";
+import { Navigate, Route, BrowserRouter as Router, Routes,} from "react-router-dom";
 import React, { Suspense } from "react";
 import { Skeleton } from "@mui/material";
 import NotAuthorized from "./Common/NotAuthorized/NotAuthorized";
@@ -22,7 +22,7 @@ function App() {
   const isAuthenticated = !!localStorage.getItem("token"); 
   return (
     <>
-      <BrowserRouter>
+      <Router>
         <Suspense fallback={
           <div className="">
             <Skeleton variant="text" sx={{ fontSize: '4rem' }} />
@@ -52,7 +52,7 @@ function App() {
             <Route path="oauth-success" element={<OAuthSuccess />} />
           </Routes>
         </Suspense>
-      </BrowserRouter>
+      </Router>
     </>
   );
 }
