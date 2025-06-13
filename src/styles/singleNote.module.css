@@ -60,7 +60,6 @@
 }
 
 textarea {
-  flex-grow: 1;
   resize: none;
   border: none;
   outline: none;

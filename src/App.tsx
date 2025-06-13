@@ -1,8 +1,10 @@
 // import { useState } from 'react'
 
-import { Navigate, Route, BrowserRouter as Router, Routes,} from "react-router-dom";
+import { BrowserRouter, Navigate, Route, BrowserRouter as Router, Routes,} from "react-router-dom";
 import React, { Suspense } from "react";
 import { Skeleton } from "@mui/material";
+import NotAuthorized from "./Common/NotAuthorized/NotAuthorized";
+import OAuthSuccess from "./Pages/OauthSuccess";
 const Home = React.lazy(() => import("./Pages/Home"));
 const Login = React.lazy(() => import("./Auth/Login"));
 const Resources = React.lazy(() => import("./Pages/Resources"));
@@ -16,9 +18,11 @@ const NotebookItem = React.lazy(() => import("./Notebook/NotebookItem"));
 const SingleNote = React.lazy(() => import("./Notebook/SingleNote"));
 
 function App() {
+  // const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const isAuthenticated = !!localStorage.getItem("token"); 
   return (
     <>
-      <Router>
+      <BrowserRouter>
         <Suspense fallback={
           <div className="">
             <Skeleton variant="text" sx={{ fontSize: '4rem' }} />
@@ -36,7 +40,7 @@ function App() {
               <Route path="*" element={<Navigate to="/" />} />
             </Route>
             {/* Note Layout */}
-            <Route path="/" element={<Layout />}>
+            <Route path="/" element={isAuthenticated ? <Layout /> : <NotAuthorized/>}>
               <Route path="notecard" element={<NotebookItem />} />
               <Route path="notebooks" element={<NotebookList />} />
               <Route path="single-note" element={<SingleNote />} />
@@ -45,9 +49,10 @@ function App() {
             </Route>
             <Route path="login" element={<Login />} />
             <Route path="register" element={<Signup />} />
+            <Route path="oauth-success" element={<OAuthSuccess />} />
           </Routes>
         </Suspense>
-      </Router>
+      </BrowserRouter>
     </>
   );
 }
