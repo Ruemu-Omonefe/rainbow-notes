@@ -5,6 +5,8 @@ import React, { Suspense } from "react";
 import { Skeleton } from "@mui/material";
 import NotAuthorized from "./Common/NotAuthorized/NotAuthorized";
 import OAuthSuccess from "./Pages/OauthSuccess";
+import { useSelector } from "react-redux";
+import { RootState } from "./Auth/store";
 const Home = React.lazy(() => import("./Pages/Home"));
 const Login = React.lazy(() => import("./Auth/Login"));
 const Resources = React.lazy(() => import("./Pages/Resources"));
@@ -18,8 +20,7 @@ const NotebookItem = React.lazy(() => import("./Notebook/NotebookItem"));
 const SingleNote = React.lazy(() => import("./Notebook/SingleNote"));
 
 function App() {
-  // const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const isAuthenticated = !!localStorage.getItem("token"); 
+  const isAuthenticated = useSelector((state: RootState) => state.auth.isAuthenticated);
   return (
     <>
       <Router>

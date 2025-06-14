@@ -9,6 +9,9 @@ import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import { useState } from "react";
 import axios from "axios";
+import { AppDispatch } from "./store";
+import { useDispatch } from "react-redux";
+import { login as loginAction } from "./store/authSlice";
 
 
 function Login() {
@@ -18,6 +21,7 @@ function Login() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
   const navigate = useNavigate();
+  const dispatch = useDispatch<AppDispatch>();
   
   const API_URL = import.meta.env.VITE_API_URL;
   const toggleEye = () => {
@@ -55,37 +59,17 @@ function Login() {
     const { token, user } = response.data;
       console.log("Login successful:", response);
 
-      localStorage.setItem("token", token);
-      localStorage.setItem("user", JSON.stringify(user));
+      dispatch(loginAction({ token, user }));
 
       navigate("/notebooks");
   }
 
   async function googleLogin() {
-    // try{
-    //     const response = await axios.post(`${API_URL}/api/auth/google`,);
-    //     nextAction(response)
-        
-    //   }catch (err: any) {
-    //     console.error("Login error:", err);
-    //     setError(err.message || "Login failed");
-    // } finally {
-    //     setIsLoading(false);
-    // }
-
      window.location.href = `${API_URL}/api/auth/google`;
   }
+
   async function githubLogin() {
-    try{
-        const response = await axios.post(`${API_URL}/api/auth/github`,);
-        nextAction(response)
-        
-      }catch (err: any) {
-        console.error("Login error:", err);
-        setError(err.message || "Login failed");
-    } finally {
-        setIsLoading(false);
-    }
+    window.location.href = `${API_URL}/api/auth/github`;
   }
 
     return (
