@@ -17,7 +17,6 @@ function OAuthSuccess() {
     const token = new URLSearchParams(window.location.search).get("token");
 
     if (token) {
-      // localStorage.setItem("token", token);
 
       axios.get(`${API_URL}/api/auth/me`, {
         headers: {
@@ -25,7 +24,6 @@ function OAuthSuccess() {
         },
       }).then(res => {
         const user = res.data;
-        // localStorage.setItem("user", JSON.stringify(res.data));
         dispatch(loginAction({ token, user }));
         navigate("/notebooks");
       }).catch(() => {

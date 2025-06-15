@@ -7,6 +7,7 @@ import NotAuthorized from "./Common/NotAuthorized/NotAuthorized";
 import OAuthSuccess from "./Pages/OauthSuccess";
 import { useSelector } from "react-redux";
 import { RootState } from "./Auth/store";
+import RouterHooksProvider from "./shared/services/RouterHookProvider";
 const Home = React.lazy(() => import("./Pages/Home"));
 const Login = React.lazy(() => import("./Auth/Login"));
 const Resources = React.lazy(() => import("./Pages/Resources"));
@@ -21,9 +22,11 @@ const SingleNote = React.lazy(() => import("./Notebook/SingleNote"));
 
 function App() {
   const isAuthenticated = useSelector((state: RootState) => state.auth.isAuthenticated);
+  
   return (
     <>
       <Router>
+        <RouterHooksProvider />
         <Suspense fallback={
           <div className="">
             <Skeleton variant="text" sx={{ fontSize: '4rem' }} />
