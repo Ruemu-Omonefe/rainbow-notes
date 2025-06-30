@@ -14,15 +14,15 @@ function NotebookList() {
   const [isLoading, setIsLoading] = useState(false)
 
 
-  async function getNotes(){
-    try{
+  async function getNotes() {
+    try {
       setIsLoading(true);
       const response = await getUserNotes(user._id || user.id);
       console.log(response);
       setNoteList(response.data.notes);
     } catch (error) {
       console.error(error);
-    }finally{
+    } finally {
       setIsLoading(false)
     }
   }
@@ -30,9 +30,9 @@ function NotebookList() {
     getNotes();
   }, [])
 
-    return (
-      <>
-      { isLoading ? (<NoteLoader/>) :
+  return (
+    <>
+      {isLoading ? (<NoteLoader />) :
         (
           <>
             <div className="grid grid-cols-3 items-center px-5 pt-5 w-full">
@@ -42,22 +42,27 @@ function NotebookList() {
                 <SwapVertIcon />
               </div>
             </div>
-
-            <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 gap-4 p-4">
-              {noteList.map(notebook => (
-                <Link to='/single-note' key={notebook._id}>
-                  <div className={style.cover} style={{ backgroundImage: `url(${notebook.coverDesign})`}}>
-                  </div>
-                    <div className="text-black font-medium text-center" style={{fontFamily: 'Roboto'}}>{notebook.title}</div>
-                </Link>
-              ))}
-            </div>
+            {noteList.length === 0 ? (
+              <div className="flex justify-center items-center h-[70vh]">
+                <p className="text-gray-500">No notebooks found. Start by creating one!</p>
+              </div>
+            ) : (
+              // Display notebooks in a grid
+              <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 gap-4 p-4">
+                {noteList.map(notebook => (
+                  <Link to='/single-note' key={notebook._id}>
+                    <div className={style.cover} style={{ backgroundImage: `url(${notebook.coverDesign})` }}>
+                    </div>
+                    <div className="text-black font-medium text-center" style={{ fontFamily: 'Roboto' }}>{notebook.title}</div>
+                  </Link>
+                ))}
+              </div>
+            )}
           </>
         )
       }
-        
-      </>
-    )
-  }
-  
-  export default NotebookList
+    </>
+  )
+}
+
+export default NotebookList

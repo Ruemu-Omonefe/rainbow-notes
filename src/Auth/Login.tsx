@@ -11,7 +11,7 @@ import { useState } from "react";
 import { AppDispatch } from "./store";
 import { useDispatch } from "react-redux";
 import { login as loginAction } from "./store/authSlice";
-import { loginUser, googleLogin as googleLoginService, githubLogin as githubLoginService } from "../shared/services/authService";
+import { loginUser} from "../shared/services/authService";
 import NoteLoader from "../Common/Loader/Loader";
 
 
@@ -25,6 +25,7 @@ function Login() {
   const dispatch = useDispatch<AppDispatch>();
   const location = useLocation();
   const message = location.state?.message;
+  const API_URL = import.meta.env.VITE_API_URL;
   
   const toggleEye = () => {
     setOpen(!open);
@@ -63,11 +64,11 @@ function Login() {
   }
 
   async function googleLogin() {
-    googleLoginService();
+    window.location.href = `${API_URL}/api/auth/google`;
   }
 
   async function githubLogin() {
-    githubLoginService();
+    window.location.href = `${API_URL}/api/auth/github`;
   }
 
     return (

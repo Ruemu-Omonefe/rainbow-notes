@@ -9,6 +9,9 @@ import SearchIcon from '@mui/icons-material/Search';
 import { Tooltip } from "@mui/material";
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
+import PeopleAltOutlinedIcon from '@mui/icons-material/PeopleAltOutlined';
+import Profile from "../Notebook/Profile";
+import { motion } from "framer-motion";
 
 
 function Header() {
@@ -17,6 +20,7 @@ function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [moreMenuOpen, setMoreMenuOpen] = useState(false);
   const [addMenu, setAddMenu] = useState(false);
+  const [profile, setProfile] = useState(false);
 
   return (
     <>
@@ -46,7 +50,7 @@ function Header() {
               </Link>
               <Link to="/recordings" className={`p-2 flex ${selectedName === 'Recordings' ? 'bg-gray-200 font-bold' : ''}`}
                 onClick={() => {setSelectedName('Recordings'); setMenuOpen(false);}}>
-                <KeyboardVoiceIcon className="inline mr-2" /> Recordings
+                <PeopleAltOutlinedIcon className="inline mr-2" /> Shared
               </Link>
             </div>
           )}
@@ -66,10 +70,10 @@ function Header() {
               <KeyboardVoiceIcon />
             </Link>
           </Tooltip>
-          <Tooltip title="Notebooks" arrow placement="bottom-start">
-            <Link to="notebooks" className={`text-gray-700 hover:bg-gray-200 rounded-sm p-2 ${selectedName === 'Notebooks' ? 'bg-gray-200' : ''}`}
-              onClick={() => {setSelectedName('Notebooks');}}>
-              <MenuBookIcon />
+          <Tooltip title="Shared" arrow placement="bottom-start">
+            <Link to="notebooks" className={`text-gray-700 hover:bg-gray-200 rounded-sm p-2 ${selectedName === 'Shared' ? 'bg-gray-200' : ''}`}
+              onClick={() => {setSelectedName('Shared');}}>
+              <PeopleAltOutlinedIcon />
             </Link>
           </Tooltip>
         </nav>
@@ -117,10 +121,7 @@ function Header() {
         </div>
 
         {/* Right Nav (Desktop) */}
-        <nav className="hidden md:flex absolute right-4 space-x-6 items-center">
-          {/* <Link to="/" className="text-white bg-black transition rounded-sm flex items-center p-1">
-            <AddIcon />
-          </Link> */}
+        <nav className="hidden md:flex absolute right-4 space-x-4 items-center">
           <div className="relative">
             <button onClick={() => setAddMenu(!addMenu)} className="text-white bg-black transition rounded-sm flex items-center p-1">
               <AddIcon />
@@ -143,10 +144,24 @@ function Header() {
           <Link to="/" className="text-gray-700 rounded-sm flex items-center px-2">
             <SearchIcon />
           </Link>
-          <Link to="/ai" className="text-white rounded-full h-8 w-8 bg-amber-900 flex justify-center items-center">
-            <p className="text-3xl -translate-y-1">o</p>
-          </Link>
+          <button className="rounded-full text-white bg-amber-900 w-8 h-8 flex justify-center items-center cursor-pointer" onClick={() => setProfile(true)}>
+            <p className="text-2xl leading-0 font-medium">O</p>
+          </button>
         </nav>  
+      </div>
+      {/* Profile Modal */}
+      <div className="">
+        {profile && (<>
+          <motion.div
+            className="fixed inset-0 bg-gray-400 bg-opacity-50 z-40"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 0.5 }}
+            exit={{ opacity: 0 }}
+            onClick={() => setProfile(false)}
+          />
+          <Profile onClose={() => setProfile(false)} />
+          <motion.div />
+        </>)}
       </div>
     </>
   )
