@@ -1,9 +1,8 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import { AppDispatch } from "../Auth/store";
 import { useDispatch } from "react-redux";
-import { login as loginAction } from "../Auth/store/authSlice";
+import { AppDispatch } from "../store";
 
 
 const API_URL = import.meta.env.VITE_API_URL;
@@ -38,3 +37,7 @@ function OAuthSuccess() {
 };
 
 export default OAuthSuccess;
+function loginAction(arg0: { token: string; user: any; }): any {
+  throw new Error("Function not implemented.");
+}
+

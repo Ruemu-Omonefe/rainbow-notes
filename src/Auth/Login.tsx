@@ -8,9 +8,9 @@ import github from "../assets/github.png";
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import { useState } from "react";
-import { AppDispatch } from "./store";
+import { AppDispatch } from "../store";
 import { useDispatch } from "react-redux";
-import { login as loginAction } from "./store/authSlice";
+import { login as loginAction } from "../store/authSlice";
 import { loginUser} from "../shared/services/authService";
 import NoteLoader from "../Common/Loader/Loader";
 
@@ -43,11 +43,11 @@ function Login() {
     setIsLoading(true);
 
     loginUser(formData).then((response) => {
-      console.log("Submitting login form:", formData);
+      // console.log("Submitting login form:", formData);
       setError("");
       nextAction(response);
     }).catch((err: any) => {
-      console.error("Login error:", err);
+      // console.error("Login error:", err);
       setError(err.response.data.message || "Login failed");
     }).finally(() => {
       setIsLoading(false);
@@ -56,7 +56,7 @@ function Login() {
   function nextAction(response: { data: { token: any; user: any; }; }) {
     const { token, user } = response.data;
       setFormData({username: "", email: "", password: "" })
-      console.log("Login successful:", response);
+      // console.log("Login successful:", response);
       
       dispatch(loginAction({ token, user }));
       

@@ -12,6 +12,10 @@ import MoreVertIcon from '@mui/icons-material/MoreVert';
 import PeopleAltOutlinedIcon from '@mui/icons-material/PeopleAltOutlined';
 import Profile from "../Notebook/Profile";
 import { motion } from "framer-motion";
+import AddNoteModal from "../Notebook/AddNoteModal";
+import { useSelector } from "react-redux";
+import { stringToColor } from "../shared/utils/colorGenerator.util";
+import { RootState } from "../store";
 
 
 function Header() {
@@ -21,6 +25,10 @@ function Header() {
   const [moreMenuOpen, setMoreMenuOpen] = useState(false);
   const [addMenu, setAddMenu] = useState(false);
   const [profile, setProfile] = useState(false);
+  const [showModal, setShowModal] = useState(false);
+  const user = useSelector((state: RootState) => state.auth.user);
+  const initial = user?.username.charAt(0).toUpperCase();
+  const bgColor = stringToColor(user?.username || "U");
 
   return (
     <>
@@ -29,7 +37,7 @@ function Header() {
         <div className="absolute left-2 sm:left-4 md:left-6 flex items-center gap-2">
           <Link to="/" className="flex gap-1 items-center">
             <img src={logo} alt="Notebook" className="h-5 md:h-6 object-contain" />
-            <p className="flex" style={{ fontFamily: 'Poppins' }}>Rainbow Note </p>
+            <p className="hidden sm:flex" style={{ fontFamily: 'Poppins' }}>Rainbow Note </p>
           </Link>
         </div>
 
@@ -87,12 +95,12 @@ function Header() {
             <div className="absolute right-0 mt-2 bg-white shadow-lg rounded z-10 py-1 flex flex-col items-center">
                {/* Menu for adding new notes */}
                <div className="relative">
-                  <div className="block px-4 py-2" onClick={() => setAddMenu(prev => !prev)}>
+                  <div className="block px-4 py-2"  onClick={() => setShowModal(true)}>
                     <span className="rounded-sm bg-black p-1 text-white flex justify-center">
                       <AddIcon />
                     </span>
                   </div>
-                  {addMenu && (
+                  {/* {addMenu && (
                     <div className="fixed top-17 right-20 bg-black text-white shadow-lg rounded z-50 p-3 w-48 space-y-2">
                       <Link to="/" className="block px-4 py-2 hover:bg-neutral-700" onClick={() => { setAddMenu(false); setMoreMenuOpen(false); }}>
                         <MenuBookIcon /> Notebook
@@ -101,7 +109,7 @@ function Header() {
                         <KeyboardVoiceIcon /> Audio
                       </Link>
                     </div>
-                  )}
+                  )} */}
 
                 </div>
               {/* Menu Ends */}
@@ -112,8 +120,8 @@ function Header() {
                 <SearchIcon />
               </Link>
               <Link to="/ai" className="block px-4 py-2" onClick={() => setMoreMenuOpen(false)}>
-                <div className="text-white rounded-full h-8 w-8 bg-amber-900 flex justify-center items-center">
-                  <p className="text-3xl -translate-y-1.25">o</p>
+                <div className={`text-white rounded-full h-8 w-8 flex justify-center items-center ${bgColor}`}>
+                  <p className="text-lg leading-0 font-medium">{initial}</p>
                 </div>
               </Link>
             </div>
@@ -123,7 +131,7 @@ function Header() {
         {/* Right Nav (Desktop) */}
         <nav className="hidden md:flex absolute right-4 space-x-4 items-center">
           <div className="relative">
-            <button onClick={() => setAddMenu(!addMenu)} className="text-white bg-black transition rounded-sm flex items-center p-1">
+            <button  onClick={() => setShowModal(true)} className="text-white bg-black transition rounded-sm flex items-center p-1">
               <AddIcon />
             </button>
             {addMenu && (
@@ -144,8 +152,8 @@ function Header() {
           <Link to="/" className="text-gray-700 rounded-sm flex items-center px-2">
             <SearchIcon />
           </Link>
-          <button className="rounded-full text-white bg-amber-900 w-8 h-8 flex justify-center items-center cursor-pointer" onClick={() => setProfile(true)}>
-            <p className="text-2xl leading-0 font-medium">O</p>
+          <button className={"rounded-full text-white w-8.5 h-8.5 flex justify-center items-center cursor-pointer " + bgColor} onClick={() => setProfile(true)}>
+            <p className="text-xl leading-0 font-medium">{initial}</p>
           </button>
         </nav>  
       </div>
@@ -159,10 +167,12 @@ function Header() {
             exit={{ opacity: 0 }}
             onClick={() => setProfile(false)}
           />
-          <Profile onClose={() => setProfile(false)} />
+            <Profile onClose={() => setProfile(false)} />
           <motion.div />
         </>)}
       </div>
+      {/* Modal for Adding Notes */}
+      {showModal && <AddNoteModal onClose={() => setShowModal(false)} />}
     </>
   )
 }

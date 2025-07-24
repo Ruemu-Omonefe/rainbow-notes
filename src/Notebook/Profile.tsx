@@ -5,6 +5,10 @@ import QuizOutlinedIcon from '@mui/icons-material/QuizOutlined';
 import ChatOutlinedIcon from '@mui/icons-material/ChatOutlined';
 import PhoneOutlinedIcon from '@mui/icons-material/PhoneOutlined';
 import { useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { stringToColor } from '../shared/utils/colorGenerator.util';
+import { AppDispatch, RootState } from '../store';
+import { logout } from '../store/authSlice';
 
 type ProfileProps = {
     onClose: () => void;
@@ -13,9 +17,13 @@ type ProfileProps = {
 
 export default function Profile({onClose}: ProfileProps) {
     const navigate = useNavigate();
-    
+    const dispatch = useDispatch<AppDispatch>();
+    const user = useSelector((state: RootState) => state.auth.user);
+    const initial = user?.username.charAt(0).toUpperCase();
+    const bgColor = stringToColor(user?.username || "U");
+
     function logOut() {
-        localStorage.clear();
+        dispatch(logout());
         navigate("/login", { replace: true , state: { message: "You have successfully logged out."} });
     }
     
@@ -26,14 +34,14 @@ export default function Profile({onClose}: ProfileProps) {
                     <CloseIcon onClick={onClose} className='cursor-pointer'/>
                     <p className="text-red-500 font-semibold cursor-pointer" onClick={logOut}>Sign Out</p>
                 </div>
-                <div className="rounded-full text-white bg-amber-900 w-10 h-10 flex justify-center items-center mx-auto mt-5">
-                    <p className="text-2xl leading-0 font-medium">M</p>
+                <div className={`rounded-full text-white w-10 h-10 flex justify-center items-center mx-auto mt-5 ${bgColor}`}>
+                    <p className="text-2xl leading-0 font-medium">{initial}</p>
                 </div>
-                <p className="mt-2.5 font-semibold text-lg text-center mb-5">Marvin Storm</p>
+                <p className="mt-2.5 font-semibold text-lg text-center mb-5">{user?.username}</p>
                 <div className="flex justify-between items-center">
                     <div className="font-medium mt-3.5">
-                        <p className="">marvinstorm@gmail.com</p>
-                        <p><span>User ID:</span><span className="">23232</span></p>
+                        <p className="">{user?.email}</p>
+                        <p><span>User ID:</span><span className="">{user?.username}</span></p>
                     </div>
                     <MoreHorizIcon/>
                 </div>

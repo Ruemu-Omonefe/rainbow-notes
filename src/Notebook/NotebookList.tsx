@@ -1,38 +1,30 @@
 import SwapVertIcon from '@mui/icons-material/SwapVert';
 import style from "../styles/notebookList.module.scss"
 import { Link } from 'react-router-dom';
-import { useEffect, useState } from 'react';
-import { getUserNotes } from '../shared/services/commonService';
-import { Notebook } from '../shared/interfaces/notebook.interface';
+import { useEffect } from 'react';
 import NoteLoader from '../Common/Loader/Loader';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchNotebooks } from '../store/notebookSlice';
+import { AppDispatch } from '../store';
+import { Notebook } from '../shared/interfaces/notebook.interface';
 
 
 function NotebookList() {
 
-  let [noteList, setNoteList] = useState<Notebook[]>([]);
-  const user = localStorage.getItem("user") ? JSON.parse(localStorage.getItem("user")!) : null
-  const [isLoading, setIsLoading] = useState(false)
+  const user = useSelector((state: any) => state.auth.user);
+  const dispatch = useDispatch<AppDispatch>();
+  const noteList = useSelector((state: any) => state.notebooks.items);
+  const status = useSelector((state: any) => state.notebooks.status);
 
-
-  async function getNotes() {
-    try {
-      setIsLoading(true);
-      const response = await getUserNotes(user._id || user.id);
-      console.log(response);
-      setNoteList(response.data.notes);
-    } catch (error) {
-      console.error(error);
-    } finally {
-      setIsLoading(false)
-    }
-  }
   useEffect(() => {
-    getNotes();
-  }, [])
+    if (status === "idle") {
+      dispatch(fetchNotebooks(user.id));
+    }
+  }, [status, dispatch]);
 
   return (
     <>
-      {isLoading ? (<NoteLoader />) :
+      {status === "loading" ? (<NoteLoader />) :
         (
           <>
             <div className="grid grid-cols-3 items-center px-5 pt-5 w-full">
@@ -49,8 +41,8 @@ function NotebookList() {
             ) : (
               // Display notebooks in a grid
               <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 gap-4 p-4">
-                {noteList.map(notebook => (
-                  <Link to='/single-note' key={notebook._id}>
+                {noteList.map((notebook: Notebook) => (
+                  <Link to={`/notebook/${notebook._id}`} key={notebook._id}>
                     <div className={style.cover} style={{ backgroundImage: `url(${notebook.coverDesign})` }}>
                     </div>
                     <div className="text-black font-medium text-center" style={{ fontFamily: 'Roboto' }}>{notebook.title}</div>

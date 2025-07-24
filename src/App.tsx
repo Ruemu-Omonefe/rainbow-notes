@@ -6,8 +6,8 @@ import { Skeleton } from "@mui/material";
 import NotAuthorized from "./Common/NotAuthorized/NotAuthorized";
 import OAuthSuccess from "./Pages/OauthSuccess";
 import { useSelector } from "react-redux";
-import { RootState } from "./Auth/store";
 import RouterHooksProvider from "./shared/services/RouterHookProvider";
+import { RootState } from "./store";
 const Home = React.lazy(() => import("./Pages/Home"));
 const Login = React.lazy(() => import("./Auth/Login"));
 const Resources = React.lazy(() => import("./Pages/Resources"));
@@ -47,7 +47,7 @@ function App() {
             <Route path="/" element={isAuthenticated ? <Layout /> : <NotAuthorized/>}>
               <Route path="notecard" element={<NotebookItem />} />
               <Route path="notebooks" element={<NotebookList />} />
-              <Route path="single-note" element={<SingleNote />} />
+              <Route path="notebook/:id" element={<SingleNote />} />
               {/* <Route path="ai-helper" element={<AIHelper />} /> */}
               <Route path="*" element={<Navigate to="/" />} />
             </Route>
