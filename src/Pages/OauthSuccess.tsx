@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../store";
+import { login as loginAction } from "../store/authSlice";
 
 
 const API_URL = import.meta.env.VITE_API_URL;
@@ -37,7 +38,5 @@ function OAuthSuccess() {
 };
 
 export default OAuthSuccess;
-function loginAction(arg0: { token: string; user: any; }): any {
-  throw new Error("Function not implemented.");
-}
+
 
