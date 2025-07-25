@@ -43,8 +43,8 @@ const AddNoteModal = ({ onClose }: AddNoteModalProps) => {
   };
 
   return (
-    <div className="fixed inset-0 bg-gray-100 bg-opacity-50 mix-blend-hard-light z-50 flex items-center justify-center">
-      <div className="bg-white p-6 rounded-xl shadow-lg w-full max-w-md">
+    <div className="fixed inset-0 bg-gray-100/90 z-50 flex items-center justify-center">
+      <div className="bg-white p-6 rounded-xl shadow-lg w-10/12 max-w-md">
         <h2 className="text-xl font-bold mb-4">Create New Note</h2>
         <div className="mb-4">
           <label className="block text-gray-700 text-sm font-medium">Note Title</label>

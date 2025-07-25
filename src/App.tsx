@@ -8,6 +8,8 @@ import OAuthSuccess from "./Pages/OauthSuccess";
 import { useSelector } from "react-redux";
 import RouterHooksProvider from "./shared/services/RouterHookProvider";
 import { RootState } from "./store";
+import Profile from "./Notebook/Profile";
+import RequireMobileScreen from "./Layout/RequireMobile";
 const Home = React.lazy(() => import("./Pages/Home"));
 const Login = React.lazy(() => import("./Auth/Login"));
 const Resources = React.lazy(() => import("./Pages/Resources"));
@@ -48,7 +50,7 @@ function App() {
               <Route path="notecard" element={<NotebookItem />} />
               <Route path="notebooks" element={<NotebookList />} />
               <Route path="notebook/:id" element={<SingleNote />} />
-              {/* <Route path="ai-helper" element={<AIHelper />} /> */}
+              <Route path="profile" element={ <RequireMobileScreen><Profile /></RequireMobileScreen>} />
               <Route path="*" element={<Navigate to="/" />} />
             </Route>
             <Route path="login" element={<Login />} />

@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import { useState } from "react";
 import logo from "../assets/logo2.png";
 import AddIcon from '@mui/icons-material/Add';
@@ -16,6 +16,7 @@ import AddNoteModal from "../Notebook/AddNoteModal";
 import { useSelector } from "react-redux";
 import { stringToColor } from "../shared/utils/colorGenerator.util";
 import { RootState } from "../store";
+import useIsDesktop from "../shared/utils/isDesktop.util";
 
 
 function Header() {
@@ -29,6 +30,16 @@ function Header() {
   const user = useSelector((state: RootState) => state.auth.user);
   const initial = user?.username.charAt(0).toUpperCase();
   const bgColor = stringToColor(user?.username || "U");
+  const navigate = useNavigate();
+  const isLargeScreen = useIsDesktop();
+
+  const handleProfileClick = () => {
+  if (isLargeScreen) {
+    setProfile(true);
+  } else {
+    navigate('/profile');
+  }
+};
 
   return (
     <>
@@ -119,11 +130,11 @@ function Header() {
               <Link to="/" className="block px-4 py-2" onClick={() => setMoreMenuOpen(false)}>
                 <SearchIcon />
               </Link>
-              <Link to="/ai" className="block px-4 py-2" onClick={() => setMoreMenuOpen(false)}>
+              <div className="block px-4 py-2" onClick={() => {setMoreMenuOpen(false); handleProfileClick();}} >
                 <div className={`text-white rounded-full h-8 w-8 flex justify-center items-center ${bgColor}`}>
                   <p className="text-lg leading-0 font-medium">{initial}</p>
                 </div>
-              </Link>
+              </div>
             </div>
           )}
         </div>
@@ -152,14 +163,14 @@ function Header() {
           <Link to="/" className="text-gray-700 rounded-sm flex items-center px-2">
             <SearchIcon />
           </Link>
-          <button className={"rounded-full text-white w-8.5 h-8.5 flex justify-center items-center cursor-pointer " + bgColor} onClick={() => setProfile(true)}>
+          <button className={"rounded-full text-white w-8.5 h-8.5 flex justify-center items-center cursor-pointer " + bgColor} onClick={handleProfileClick}>
             <p className="text-xl leading-0 font-medium">{initial}</p>
           </button>
         </nav>  
       </div>
       {/* Profile Modal */}
       <div className="">
-        {profile && (<>
+        {profile && isLargeScreen && (<>
           <motion.div
             className="fixed inset-0 bg-gray-400 bg-opacity-50 z-40"
             initial={{ opacity: 0 }}

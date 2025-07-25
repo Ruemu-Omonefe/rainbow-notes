@@ -9,9 +9,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import { stringToColor } from '../shared/utils/colorGenerator.util';
 import { AppDispatch, RootState } from '../store';
 import { logout } from '../store/authSlice';
+import useIsDesktop from '../shared/utils/isDesktop.util';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
 type ProfileProps = {
-    onClose: () => void;
+    onClose?: () => void;
 };
 
 
@@ -21,6 +23,7 @@ export default function Profile({onClose}: ProfileProps) {
     const user = useSelector((state: RootState) => state.auth.user);
     const initial = user?.username.charAt(0).toUpperCase();
     const bgColor = stringToColor(user?.username || "U");
+    const isLargeScreen = useIsDesktop();
 
     function logOut() {
         dispatch(logout());
@@ -28,10 +31,11 @@ export default function Profile({onClose}: ProfileProps) {
     }
     
     return (
-        <div className="absolute right-0 top-0 w-2/6 bg-white shadow-lg z-60 text-sm text-gray-800 flex flex-col justify-between h-screen">
+        <div className="md:absolute md:right-0 md:top-0 md:w-2/6 bg-white shadow-lg z-60 text-sm text-gray-800 flex flex-col justify-between h-screen">
             <div className='p-3'>
                 <div className="flex justify-between ">
-                    <CloseIcon onClick={onClose} className='cursor-pointer'/>
+                    {onClose && (<CloseIcon onClick={onClose} className="cursor-pointer" />)}
+                    {!isLargeScreen && <ArrowBackIcon className="font-semibold text-lg" onClick={() => navigate(-1)} />}
                     <p className="text-red-500 font-semibold cursor-pointer" onClick={logOut}>Sign Out</p>
                 </div>
                 <div className={`rounded-full text-white w-10 h-10 flex justify-center items-center mx-auto mt-5 ${bgColor}`}>
@@ -40,8 +44,8 @@ export default function Profile({onClose}: ProfileProps) {
                 <p className="mt-2.5 font-semibold text-lg text-center mb-5">{user?.username}</p>
                 <div className="flex justify-between items-center">
                     <div className="font-medium mt-3.5">
-                        <p className="">{user?.email}</p>
-                        <p><span>User ID:</span><span className="">{user?.username}</span></p>
+                        <p className=""><span>Email: </span>{user?.email}</p>
+                        <p><span>User ID: </span><span className="">{user?.id}</span></p>
                     </div>
                     <MoreHorizIcon/>
                 </div>

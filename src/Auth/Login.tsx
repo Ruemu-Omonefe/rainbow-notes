@@ -78,7 +78,7 @@ function Login() {
       ): (
         <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
         <motion.div initial={{ opacity: 0, y: -50 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}>
-          <Card className="w-96 p-6 shadow-lg bg-white rounded-2xl">
+          <Card className="w-96 p-6 mx-5 shadow-lg bg-white rounded-2xl">
             <Link to="/">
               <img src={logo} alt="Notebook" className="h-12 mt-5 ml-3 object-contain" />
             </Link>
