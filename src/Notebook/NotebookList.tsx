@@ -12,15 +12,16 @@ import { Notebook } from '../shared/interfaces/notebook.interface';
 function NotebookList() {
 
   const user = useSelector((state: any) => state.auth.user);
+  const isAuthenticated = useSelector((state: any) => state.auth.isAuthenticated);
   const dispatch = useDispatch<AppDispatch>();
   const noteList = useSelector((state: any) => state.notebooks.items);
   const status = useSelector((state: any) => state.notebooks.status);
 
   useEffect(() => {
-    if (status === "idle") {
+    if (isAuthenticated && user.id && status === "idle") {
       dispatch(fetchNotebooks(user.id));
     }
-  }, [status, dispatch]);
+  }, [isAuthenticated, user.id, status, dispatch]);
 
   return (
     <>
@@ -40,7 +41,7 @@ function NotebookList() {
               </div>
             ) : (
               // Display notebooks in a grid
-              <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 gap-4 p-4">
+              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4 p-4">
                 {noteList.map((notebook: Notebook) => (
                   <Link to={`/notebook/${notebook._id}`} key={notebook._id}>
                     <div className={style.cover} style={{ backgroundImage: `url(${notebook.coverDesign})` }}>

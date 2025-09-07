@@ -1,12 +1,13 @@
 import { Outlet } from "react-router-dom"
 import Header from "../Common/Header"
 
+
 function Layout() {
 
   return (
     <>
       <Header />
-      <main className="main-content">
+      <main className="pt-[60px]">
         <Outlet />
       </main>
   </>

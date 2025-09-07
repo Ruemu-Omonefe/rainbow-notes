@@ -6,38 +6,34 @@
 } */
 
 @layer utilities {
-  .animate-fadeIn {
-    animation: fadeIn 1s ease-in-out;
-  }
-
-  @keyframes fadeIn {
-    from {
-      opacity: 0;
+    .animate-fadeIn {
+        animation: fadeIn 1s ease-in-out;
     }
-    to {
-      opacity: 1;
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+        }
+        to {
+            opacity: 1;
+        }
     }
-  }
-
-  .animate-flipPage {
-    animation: flipPage 1s ease-in-out;
-  }
-
-  @keyframes flipPage {
-    from {
-      transform: rotateY(0deg);
+    .animate-flipPage {
+        animation: flipPage 1s ease-in-out;
     }
-    to {
-      transform: rotateY(180deg);
+    @keyframes flipPage {
+        from {
+            transform: rotateY(0deg);
+        }
+        to {
+            transform: rotateY(180deg);
+        }
     }
-  }
 }
 
 .backface-hidden {
-  backface-visibility: hidden;
+    backface-visibility: hidden;
 }
+
 .rotate-y-180 {
-  transform: rotateY(180deg);
+    transform: rotateY(180deg);
 }
-
-

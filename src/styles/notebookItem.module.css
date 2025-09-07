@@ -1,93 +1,290 @@
-/* FlipNote.module.css */
-.flipNoteContainer {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  height: 100vh;
-  padding: 20px;
-  background-color: #f5f5f5;
+/* Notebook.module.css */
+
+.notebookContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+    padding: 20px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
-.pageControls {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 20px;
-  margin-bottom: 20px;
+.title {
+    color: white;
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
 }
 
-.pageControls button {
-  padding: 8px 16px;
-  border: none;
-  border-radius: 4px;
-  background-color: #4a90e2;
-  color: white;
-  cursor: pointer;
+.viewModeIndicator {
+    color: white;
+    font-size: 1rem;
+    margin-bottom: 2rem;
+    padding: 5px 15px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 20px;
+    backdrop-filter: blur(10px);
 }
 
-.pageControls button:disabled {
-  background-color: #cccccc;
-  cursor: not-allowed;
+.notebook {
+    position: relative;
+    perspective: 2000px;
+    margin-bottom: 20px;
 }
 
-.noteContainer {
-  position: relative;
-  width: 400px;
-  height: 500px;
-  perspective: 2000px;
+.notebook.desktop {
+    width: 800px;
+    height: 500px;
 }
 
-.page {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  background-color: white;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  transform-style: preserve-3d;
-  backface-visibility: hidden;
-  transition: transform 0.5s ease;
-  display: flex;
-  flex-direction: column;
-  padding: 20px;
-  box-sizing: border-box;
-}
-
-.pageContent {
-  position: relative;
-  width: 100%;
-  height: 100%;
-}
-
-.leftPage {
-  transform-origin: right center;
-}
-
-.rightPage {
-  transform-origin: left center;
-}
-
-.page textarea {
-  flex: 1;
-  border: none;
-  resize: none;
-  outline: none;
-  font-size: 16px;
-  font-family: 'Courier New', monospace;
-  padding: 10px;
+.notebook.mobile {
+    width: 400px;
+    height: 500px;
 }
 
 .cover {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  color: white;
-  text-align: center;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border-radius: 10px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    transform-origin: left;
+    transform-style: preserve-3d;
+    transition: transform 0.6s ease;
+    padding: 20px;
+    box-sizing: border-box;
+    backface-visibility: hidden;
+}
+
+.coverContent {
+    text-align: center;
+    backface-visibility: hidden;
+}
+
+.coverContent h2 {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+}
+
+.coverContent p {
+    font-size: 1rem;
+    opacity: 0.8;
 }
 
 .frontCover {
-  background: linear-gradient(135deg, #ff9a9e 0%, #fad0c4 100%);
+    background: linear-gradient(135deg, #3498db 0%, #2c3e50 100%);
+    border: 15px solid #2c3e50;
+    border-left: 20px solid #2c3e50;
+    z-index: 1000;
 }
 
 .backCover {
-  background: linear-gradient(135deg, #a1c4fd 0%, #c2e9fb 100%);
+    background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+    border: 15px solid #2c3e50;
+    border-right: 20px solid #2c3e50;
+    z-index: 5;
+}
+
+.hidden {
+    opacity: 0;
+    z-index: -1;
+    pointer-events: none;
+}
+
+.page {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to right, #f6f2e9 0%, #fcfaf7 100%);
+    border-radius: 5px;
+    transform-origin: left;
+    transform-style: preserve-3d;
+    transition: transform 0.6s ease;
+    padding: 20px;
+    box-sizing: border-box;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 20;
+}
+
+.page::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 30px;
+    width: 2px;
+    height: 100%;
+    background: repeating-linear-gradient( to bottom, transparent 0, transparent 5px, rgba(0, 0, 0, 0.1) 5px, rgba(0, 0, 0, 0.1) 7px);
+}
+
+.active {
+    z-index: 50;
+    opacity: 1;
+}
+
+.turned {
+    transform: rotateY(-180deg);
+    z-index: 10;
+    opacity: 0;
+}
+
+.flippingNext {
+    transform: rotateY(-180deg);
+    z-index: 60;
+    opacity: 1;
+}
+
+.pageContent {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    backface-visibility: hidden;
+}
+
+.textArea {
+    width: 100%;
+    height: 100%;
+    background: transparent;
+    border: none;
+    resize: none;
+    outline: none;
+    padding: 10px 10px 10px 40px;
+    font-size: 1rem;
+    line-height: 1.6;
+    color: #333;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.textArea:disabled {
+    color: #777;
+    cursor: default;
+}
+
+.pageNumber {
+    position: absolute;
+    bottom: 10px;
+    right: 20px;
+    color: #777;
+    font-size: 0.9rem;
+}
+
+.controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 400px;
+    margin-top: 30px;
+}
+
+.button {
+    padding: 10px 20px;
+    background: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(10px);
+    border: none;
+    border-radius: 5px;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.button:hover:not(:disabled) {
+    background: rgba(255, 255, 255, 0.3);
+    transform: translateY(-2px);
+}
+
+.button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.pageCounter {
+    color: white;
+    font-weight: bold;
+    font-size: 1.1rem;
+}
+
+.pageInfo {
+    color: white;
+    margin-top: 10px;
+    font-size: 0.9rem;
+}
+
+.addButton {
+    margin-top: 20px;
+    padding: 12px 25px;
+    background: rgba(255, 255, 255, 0.9);
+    border: none;
+    border-radius: 5px;
+    color: #2c3e50;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.addButton:hover:not(:disabled) {
+    background: white;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.addButton:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+
+/* Responsive design */
+
+@media (max-width: 900px) {
+    .notebook.desktop {
+        width: 700px;
+    }
+}
+
+@media (max-width: 768px) {
+    .notebook.desktop {
+        width: 400px;
+    }
+    .title {
+        font-size: 2rem;
+    }
+    .controls {
+        width: 350px;
+    }
+}
+
+@media (max-width: 500px) {
+    .notebook.desktop,
+    .notebook.mobile {
+        width: 350px;
+        height: 450px;
+    }
+    .controls {
+        width: 320px;
+    }
+    .title {
+        font-size: 1.8rem;
+    }
+}
+
+@media (max-width: 400px) {
+    .notebook.desktop,
+    .notebook.mobile {
+        width: 300px;
+        height: 400px;
+    }
+    .controls {
+        width: 280px;
+        flex-direction: column;
+        gap: 10px;
+    }
 }

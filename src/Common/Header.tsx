@@ -43,7 +43,7 @@ function Header() {
 
   return (
     <>
-      <div className="relative w-full bg-white shadow-md px-2 sm:px-4 md:px-6 py-1 h-[60px] flex items-center">
+      <div className="fixed w-full bg-white shadow-md px-2 sm:px-4 md:px-6 py-1 h-[60px] flex items-center">
         {/* Logo */}
         <div className="absolute left-2 sm:left-4 md:left-6 flex items-center gap-2">
           <Link to="/" className="flex gap-1 items-center">
