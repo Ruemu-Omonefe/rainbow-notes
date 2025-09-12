@@ -1,20 +1,66 @@
 import styles from "../styles/notebookItem.module.css";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
+import StarIcon from "@mui/icons-material/Star";
+import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
+import ChevronRightIcon from '@mui/icons-material/ChevronRight';
+import { Switch } from "@mui/material";
+import Page from "./Page";
+import { getNoteById } from "../shared/services/commonService";
+import img from '../assets/book-cover1.png';
+declare global {
+  interface Window {
+    $: any;
+  }
+}
+
 
 const NotebookItem = () => {
   const notebookRef = useRef<HTMLDivElement>(null);
   const isMobile = window.innerWidth < 900;
   const [showPageFullMessage, setShowPageFullMessage] = useState(false);
-  const [noOfPages, setNoOfPages] = useState(4);
+  const [checked, setChecked] = useState(false);
+  const [showControl, setShowControl] = useState(false);
+  const [noteTitle, setNoteTitle] = useState("");
+  const [noOfPages, setNoOfPages] = useState<number | null>(null);
+  const [coverImage, setCoverImage] = useState<string>("");
+  const [noteContent, setNoteContent] = useState<{ type: string; content: string }[]>([]);
+
+
+  const handleControlChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setChecked(event.target.checked);
+    setShowControl(!showControl);
+  };
+
+    // Get note details
+  useEffect(() => {
+    const noteId = window.location.pathname.split("/").pop() || '';
+    if (noteId) {
+      getNoteById(noteId)
+        .then((response) => {
+          console.log("Note data:", response.data);
+          setNoteTitle(response.data.title);
+          setNoOfPages(response.data.numberOfPages || 2);
+          // setCoverImage(response.data.coverDesign || "");
+          setCoverImage(img);
+          setNoteContent(response.data.content || []);
+        })
+        .catch((err) => {
+          console.error("Error fetching note:", err);
+        });
+    }
+  }, []);
 
   useEffect(() => {
+    if (!noOfPages) return;  // Wait until noOfPages is set
+
     if (notebookRef.current && window.$ && window.$.fn.turn) {
       const $el = window.$(notebookRef.current);
 
       if (!$el.data("initialized")) {
+        const containerHeight = notebookRef.current?.offsetHeight || 600;
         $el.turn({
-          width: 800,
-          height: 600,
+          width: 1200,
+          height: containerHeight,
           autoCenter: true,
           display: isMobile ? "single" : "double",
           elevation: 50,
@@ -23,17 +69,16 @@ const NotebookItem = () => {
           acceleration: true,
         });
 
-        console.log("Turn.js initialized with", $el.turn("pages"), "pages");
-
         $el.data("initialized", true);
       }
     }
 
     if (!isMobile) {
+      // Edge click navigation for desktop(added manually as original functionality refused to work)
       const handleEdgeClick = (e: MouseEvent) => {
         if (!notebookRef.current) return;
-
         const $el = window.$(notebookRef.current);
+
         const rect = notebookRef.current.getBoundingClientRect();
         const edgeThreshold = 80;
         const page = $el.turn("page");
@@ -46,11 +91,26 @@ const NotebookItem = () => {
         }
       };
 
+       // Change cursor when hovering near edges
+      const handleMouseMove = (e: MouseEvent) => {
+        if (!notebookRef.current) return;
+        const rect = notebookRef.current.getBoundingClientRect();
+        const edgeThreshold = 80;
+
+        if (e.clientX - rect.left < edgeThreshold || rect.right - e.clientX < edgeThreshold ) {
+          notebookRef.current.style.cursor = "pointer";
+        } else {
+          notebookRef.current.style.cursor = "default";
+        }
+      };
+
       const el = notebookRef.current;
       el?.addEventListener("click", handleEdgeClick);
+      el?.addEventListener("mousemove", handleMouseMove);
 
       return () => {
         el?.removeEventListener("click", handleEdgeClick);
+        el?.removeEventListener("mousemove", handleMouseMove);
         if (notebookRef.current && window.$) {
           const $el = window.$(notebookRef.current);
           try {
@@ -61,66 +121,9 @@ const NotebookItem = () => {
         }
       };
     }
-  }, []);
+  }, [isMobile, noOfPages]);
 
-  // Auto-move overflow text to next page (disabled for now)
-  //   useEffect(() => {
-  //   const container = notebookRef.current;
-  //   if (!container) return;
-
-  //   const $el = window.$(container);
-
-  //   const handleInput = (e: Event) => {
-  //     const textarea = e.target as HTMLTextAreaElement;
-
-  //     // Detect overflow
-  //     if (textarea.scrollHeight > textarea.clientHeight) {
-  //       const currentPage = $el.turn("page");
-  //       const totalPages = $el.turn("pages");
-  //       const extraText = textarea.value.split("").pop() || "";
-
-  //       // Remove the last character from this textarea
-  //       textarea.value = textarea.value.slice(0, -1);
-
-  //       // If current page is LEFT and right page exists → move to right page
-  //       if (currentPage % 2 === 1 && currentPage + 1 <= totalPages) {
-  //         const rightPageEl = container.querySelector(
-  //           `.page:nth-child(${currentPage + 1}) textarea`
-  //         ) as HTMLTextAreaElement;
-
-  //         if (rightPageEl) {
-  //           rightPageEl.value += extraText;
-  //           rightPageEl.focus();
-  //         }
-  //       } else if (currentPage < totalPages) {
-  //         // Otherwise flip to the next spread
-  //         $el.turn("next");
-
-  //         setTimeout(() => {
-  //           const nextPage = $el.turn("page");
-  //           const nextPageEl = container.querySelector(
-  //             `.page:nth-child(${nextPage}) textarea`
-  //           ) as HTMLTextAreaElement;
-
-  //           if (nextPageEl) {
-  //             nextPageEl.value += extraText;
-  //             nextPageEl.focus();
-  //           }
-  //         }, 500);
-  //       }
-  //     }
-  //   };
-
-  //   // Attach listeners
-  //   const textareas = container.querySelectorAll("textarea");
-  //   textareas.forEach((ta) => ta.addEventListener("input", handleInput));
-
-  //   return () => {
-  //     textareas.forEach((ta) => ta.removeEventListener("input", handleInput));
-  //   };
-  // }, []);
-
-  // Prevent typing past last line and show message
+  // Prevent typing past last line(show user alert)
   useEffect(() => {
     const container = notebookRef.current;
     if (!container) return;
@@ -128,15 +131,11 @@ const NotebookItem = () => {
     const handleInput = (e: Event) => {
       const textarea = e.target as HTMLTextAreaElement;
 
-      // If content exceeds visible height → stop input
       if (textarea.scrollHeight > textarea.clientHeight) {
-        textarea.value = textarea.value.slice(0, -1); // remove last typed char
+        textarea.value = textarea.value.slice(0, -1);
         setShowPageFullMessage(true);
 
-        // Hide message after 2 seconds
-        setTimeout(() => {
-          setShowPageFullMessage(false);
-        }, 2000);
+        setTimeout(() => setShowPageFullMessage(false), 2000);
       }
     };
 
@@ -148,90 +147,66 @@ const NotebookItem = () => {
     };
   }, []);
 
+  // Freeze pages with useMemo to prevent re-creation
+  const pages = useMemo(() => {
+    if (!noOfPages) return null;
+    return Array.from({ length: noOfPages }).map((_, i) => (
+      <Page key={i} index={i} pageContent={noteContent[i]} />
+    ));
+  }, [noOfPages]);
+
+  if (!noOfPages) {
+    return <div>Loading notebook...</div>;
+  }
+
+
   return (
     <>
-      <div className={styles.notebookContainer}>
-        {/* Full page alert message */}
-        {showPageFullMessage && (
-          <div className={styles.pageFullMessage}>
-            Page is full, move to next page to continue.
+      <div className={`${styles.grid} grid grid-cols-3 items-center px-5 pt-1 w-full`}>
+        <div className="flex items-center gap-6">
+          <div className={`flex items-center gap-2`}>
+            <p className="">Toggle control</p>
+            <Switch checked={checked} onChange={handleControlChange} />
           </div>
+           {/* Controls */}
+          {showControl && (
+            <div className={styles.controls}>
+              <button onClick={() => window.$(notebookRef.current).turn("previous")}><ChevronLeftIcon /></button>
+              <button onClick={() => window.$(notebookRef.current).turn("next")}><ChevronRightIcon /></button>
+            </div>
+          )}
+        </div>
+        <div className={`${styles.textCenter} text-center font-semibold text-2xl sm:text-2xl`}>{noteTitle}</div>
+        <div className={`flex justify-end`}>
+          <StarIcon className={`${styles.starIcon} text-amber-500`}></StarIcon>
+        </div>
+      </div>
+      <div className={styles.notebookContainer}>
+        {/* Alert message for full page */}
+        {showPageFullMessage && (
+          <div className={styles.pageFullMessage}>Page is full, move to next page to continue.</div>
         )}
-        {/* Notebook */}
+
         <div ref={notebookRef} className={styles.notebook}>
           {/* Front Cover */}
           <div className={styles.page}>
-            <div className={styles.cover}>My Notebook</div>
+            <div className={styles.cover} style={{ backgroundImage: `url(${coverImage})` }}>My Notebook</div>
           </div>
 
-          {/* Page 1 */}
-          <div className={`${styles.page} left`}>
-            <div className={`${styles.pageContent} ${styles.linedBackground}`}>
-              <textarea
-                className={styles.textarea}
-                placeholder="Write here..."
-              />
-            </div>
-          </div>
-
-          {/* Page 2 */}
-          <div className={`${styles.page} right`}>
-            <div
-              className={`${styles.pageContent} ${styles.alternatePage} ${styles.linedBackground}`}
-            >
-              <textarea
-                className={styles.textarea}
-                placeholder="More notes..."
-              />
-            </div>
-          </div>
-
-          {/* Page 3 */}
-          <div className={`${styles.page} left`}>
-            <div className={`${styles.pageContent} ${styles.linedBackground}`}>
-              <textarea
-                className={styles.textarea}
-                placeholder="Even more notes..."
-              />
-            </div>
-          </div>
-
-          {/* Page 4 */}
-          <div className={`${styles.page} right`}>
-            <div
-              className={`${styles.pageContent} ${styles.alternatePage} ${styles.linedBackground}`}
-            >
-              <textarea
-                className={styles.textarea}
-                placeholder="Additional notes..."
-              />
-            </div>
-          </div>
+          {/* Pages */}
+          {pages}
 
           {/* Back Cover */}
           <div className={styles.page}>
-            <div className={styles.backCover}>
-              <div className={styles.endTitle}>The End</div>
-              <div className={styles.endText}>
-                Thank you for using this notebook
+            <div className={styles.cover} style={{ backgroundImage: `url(${coverImage})` }}>
+              {/* <div className={styles.endTitle}>The End</div>
+              <div className={styles.endText}>Thank you for using this notebook
                 <br />
-                <span className={styles.footer}>
-                  Created with React & Turn.js
-                </span>
-              </div>
+                <span className={styles.footer}>Created with React & Turn.js</span>
+              </div> */}
             </div>
           </div>
         </div>
-      </div>
-
-      {/* Manual Controls */}
-      <div className={styles.controls}>
-        <button onClick={() => window.$(notebookRef.current).turn("previous")}>
-          Prev
-        </button>
-        <button onClick={() => window.$(notebookRef.current).turn("next")}>
-          Next
-        </button>
       </div>
     </>
   );

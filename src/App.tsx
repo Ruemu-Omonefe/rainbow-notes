@@ -20,7 +20,6 @@ const Signup = React.lazy(() => import("./Auth/Signup"));
 const AI = React.lazy(() => import("./Pages/AIAssistant"));
 const Features = React.lazy(() => import("./Pages/Features"));
 const NotebookItem = React.lazy(() => import("./Notebook/NotebookItem"));
-const SingleNote = React.lazy(() => import("./Notebook/SingleNote"));
 
 function App() {
   const isAuthenticated = useSelector((state: RootState) => state.auth.isAuthenticated);
@@ -47,9 +46,8 @@ function App() {
             </Route>
             {/* Note Layout */}
             <Route path="/" element={isAuthenticated ? <Layout /> : <NotAuthorized/>}>
-              <Route path="notecard" element={<NotebookItem />} />
               <Route path="notebooks" element={<NotebookList />} />
-              <Route path="notebook/:id" element={<SingleNote />} />
+              <Route path="notebook/:id" element={<NotebookItem />} />
               <Route path="profile" element={ <RequireMobileScreen><Profile /></RequireMobileScreen>} />
               <Route path="*" element={<Navigate to="/" />} />
             </Route>
