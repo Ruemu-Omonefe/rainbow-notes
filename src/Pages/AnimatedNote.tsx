@@ -9,7 +9,7 @@ export default function AnimatedNote() {
 
   const message = "AI is changing the world in ways we never imagined.";
   const speed = 280;
-  const resetDelay = 5000;
+  const resetDelay = 7000;
 
   useEffect(() => {
     let index = 0;
@@ -70,6 +70,20 @@ export default function AnimatedNote() {
             </span>
           )}
         </p>
+
+        {/* {writingDone && (
+          <div className="mt-3.5 flex items-start gap-2 rounded-r-lg" style={{padding: "10px 12px", background: "rgba(90,80,200,0.07)", borderLeft: "2.5px solid #5a50c8", animation: "fadeIn 0.4s ease both",}}>
+            <div className="w-5 h-5 rounded flex items-center justify-center flex-shrink-0 mt-0.5" style={{ background: "linear-gradient(135deg,#5a50c8,#3b3598)" }}>
+              <span className="text-white font-bold" style={{ fontSize: "0.55rem" }}>AI</span>
+            </div>
+            <div>
+              <span className="block font-bold tracking-wider uppercase mb-1" style={{ fontSize: "0.6rem", color: "rgba(90,80,200,0.6)" }}>Suggestion</span>
+              <p className="italic leading-relaxed" style={{ fontSize: "0.78rem", color: "#5a50c8" }}>
+                Continue: "…and Rainbow Notes helps you capture every spark."
+              </p>
+            </div>
+          </div>
+        )} */}
       </div>
     </div>
   );

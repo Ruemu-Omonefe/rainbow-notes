@@ -7,6 +7,7 @@ import { Switch } from "@mui/material";
 import Page from "./Page";
 import { getNoteById } from "../shared/services/commonService";
 import img from '../assets/book-cover1.png';
+import NoteLoader from "../Common/Loader/Loader";
 declare global {
   interface Window {
     $: any;
@@ -156,7 +157,7 @@ const NotebookItem = () => {
   }, [noOfPages]);
 
   if (!noOfPages) {
-    return <div>Loading notebook...</div>;
+    return <NoteLoader/>
   }
 
 

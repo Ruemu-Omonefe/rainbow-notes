@@ -27,6 +27,9 @@ function Footer() {
 
   return (
     <>
+     <div className=" h-1.5 mb-0.5" style={{
+          background: "linear-gradient(90deg,#ff4f31 0%,#f5a620 20%,#7ed950 35%,#38c9b0 50%,#60b8ff 65%,#7b72f0 80%,#ff7eb3 100%)"
+        }} />
       <div className={style.foot }>
         <div className={style.curve}>
           {[...Array(count)].map((_, index) => (
