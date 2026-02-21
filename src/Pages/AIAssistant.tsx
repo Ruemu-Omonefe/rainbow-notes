@@ -41,7 +41,7 @@ const DEMO_FLOWS = [
 ];
 
 // ─── Typing animation hook ───
-function useTyping(text, active) {
+function useTyping(text: string, active: boolean) {
   const [displayed, setDisplayed] = useState("");
   const [done, setDone] = useState(false);
 
@@ -66,46 +66,30 @@ function AiDemo() {
   const [aiText, done] = useTyping(flow.aiMsg, true);
 
   // reset typing when tab changes
-  const [key, setKey] = useState(0);
-  const handleTab = (i) => { setActive(i); setKey(k => k + 1); };
+  const [, setKey] = useState(0);
+  const handleTab = (i: any) => { setActive(i); setKey(k => k + 1); };
 
   return (
     <div className="max-w-3xl mx-auto">
       {/* Tab strip */}
       <div className="flex flex-wrap gap-2 mb-6 justify-center">
         {DEMO_FLOWS.map((f, i) => (
-          <button
-            key={f.label}
-            onClick={() => handleTab(i)}
-            className="text-sm font-semibold rounded-full px-4 py-2 transition-all duration-200"
-            style={{
-              background: active === i ? f.color : f.bg,
-              color: active === i ? "white" : f.color,
-              boxShadow: active === i ? `0 4px 14px ${f.color}40` : "none",
-            }}
-          >
+          <button key={f.label} onClick={() => handleTab(i)}className="text-sm font-semibold rounded-full px-4 py-2 transition-all duration-200 cursor-pointer"
+            style={{background: active === i ? f.color : f.bg, color: active === i ? "white" : f.color,boxShadow: active === i ? `0 4px 14px ${f.color}40` : "none",}}>
             {f.label}
           </button>
         ))}
       </div>
 
       {/* Chat window */}
-      <div
-        className="rounded-2xl overflow-hidden border"
-        style={{ borderColor: "#e8e6f5", boxShadow: "0 8px 40px rgba(90,80,200,0.1)" }}
-      >
+      <div className="rounded-2xl overflow-hidden border" style={{ borderColor: "#e8e6f5", boxShadow: "0 8px 40px rgba(90,80,200,0.1)" }}>
         {/* Window chrome */}
         <div className="flex items-center gap-2 px-5 py-3.5 border-b" style={{ background: "#f8f7ff", borderColor: "#e8e6f5" }}>
           <span className="w-3 h-3 rounded-full" style={{ background: "#ff5f57" }} />
           <span className="w-3 h-3 rounded-full" style={{ background: "#febc2e" }} />
           <span className="w-3 h-3 rounded-full" style={{ background: "#28c840" }} />
-          <span className="ml-3 text-xs font-semibold tracking-wider uppercase" style={{ color: "#a09ab8" }}>
-            AI Assistant
-          </span>
-          <span
-            className="ml-auto flex items-center gap-1.5 text-xs font-semibold rounded-full px-3 py-1"
-            style={{ background: "#e8fdf6", color: "#1a8a60" }}
-          >
+          <span className="ml-3 text-xs font-semibold tracking-wider uppercase" style={{ color: "#a09ab8" }}>AI Assistant</span>
+          <span className="ml-auto flex items-center gap-1.5 text-xs font-semibold rounded-full px-3 py-1"style={{ background: "#e8fdf6", color: "#1a8a60" }}>
             <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" style={{ animation: "pulse 1.5s infinite" }} />
             Active
           </span>
@@ -115,10 +99,7 @@ function AiDemo() {
         <div className="p-6 flex flex-col gap-5" style={{ background: "white", minHeight: "320px" }}>
           {/* User bubble */}
           <div className="flex justify-end">
-            <div
-              className="rounded-2xl rounded-tr-sm px-5 py-3.5 max-w-[80%]"
-              style={{ background: "linear-gradient(135deg,#5a50c8,#3b3598)", color: "white" }}
-            >
+            <div className="rounded-2xl rounded-tr-sm px-5 py-3.5 max-w-[80%]" style={{ background: "linear-gradient(135deg,#5a50c8,#3b3598)", color: "white" }}>
               <p className="text-xs font-bold mb-1.5 opacity-60 tracking-wide uppercase">You</p>
               <p className="text-sm leading-relaxed whitespace-pre-line">{flow.userMsg}</p>
             </div>
@@ -126,10 +107,7 @@ function AiDemo() {
 
           {/* AI bubble */}
           <div className="flex justify-start gap-3">
-            <div
-              className="w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0 mt-1"
-              style={{ background: "linear-gradient(135deg,#5a50c8,#3b3598)" }}
-            >
+            <div className="w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0 mt-1" style={{ background: "linear-gradient(135deg,#5a50c8,#3b3598)" }}>
               <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
                 <circle cx="8" cy="8" r="5" stroke="white" strokeWidth="1.5" fill="none"/>
                 <circle cx="8" cy="8" r="2" fill="white" opacity="0.5"/>
@@ -139,26 +117,15 @@ function AiDemo() {
                 <line x1="13" y1="8" x2="15" y2="8" stroke="white" strokeWidth="1.2"/>
               </svg>
             </div>
-            <div
-              className="rounded-2xl rounded-tl-sm px-5 py-3.5 max-w-[80%]"
-              style={{ background: "#f8f7ff", border: "1px solid #e8e6f5" }}
-            >
+            <div className="rounded-2xl rounded-tl-sm px-5 py-3.5 max-w-[80%]" style={{ background: "#f8f7ff", border: "1px solid #e8e6f5" }}>
               <div className="flex items-center gap-2 mb-1.5">
                 <p className="text-xs font-bold tracking-wide uppercase" style={{ color: "#5a50c8" }}>Rainbow AI</p>
-                <span
-                  className="text-xs font-semibold rounded-full px-2 py-0.5"
-                  style={{ background: flow.bg, color: flow.color }}
-                >
-                  {flow.tag}
-                </span>
+                <span className="text-xs font-semibold rounded-full px-2 py-0.5" style={{ background: flow.bg, color: flow.color }}>{flow.tag}</span>
               </div>
               <p className="text-sm leading-relaxed whitespace-pre-line" style={{ color: "#1a1830" }}>
                 {aiText}
                 {!done && (
-                  <span
-                    className="inline-block w-0.5 h-4 ml-0.5 align-middle"
-                    style={{ background: "#5a50c8", animation: "blink 1s step-end infinite" }}
-                  />
+                  <span className="inline-block w-0.5 h-4 ml-0.5 align-middle" style={{ background: "#5a50c8", animation: "blink 1s step-end infinite" }}/>
                 )}
               </p>
             </div>
@@ -167,16 +134,8 @@ function AiDemo() {
 
         {/* Input bar */}
         <div className="px-5 py-4 border-t flex items-center gap-3" style={{ background: "#f8f7ff", borderColor: "#e8e6f5" }}>
-          <div
-            className="flex-1 rounded-xl px-4 py-2.5 text-sm"
-            style={{ background: "white", border: "1.5px solid #e8e6f5", color: "#a09ab8" }}
-          >
-            Ask the AI anything about your notes…
-          </div>
-          <button
-            className="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0 transition-all duration-200 hover:-translate-y-0.5"
-            style={{ background: "linear-gradient(135deg,#5a50c8,#3b3598)", boxShadow: "0 4px 14px rgba(90,80,200,0.4)" }}
-          >
+          <div className="flex-1 rounded-xl px-4 py-2.5 text-sm" style={{ background: "white", border: "1.5px solid #e8e6f5", color: "#a09ab8" }}> Ask the AI anything about your notes…</div>
+          <button className="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0 transition-all duration-200 hover:-translate-y-0.5 cursor-pointer" style={{ background: "linear-gradient(135deg,#5a50c8,#3b3598)", boxShadow: "0 4px 14px rgba(90,80,200,0.4)" }}>
             <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
               <path d="M2 8h12M9 3l5 5-5 5" stroke="white" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
             </svg>
@@ -184,25 +143,16 @@ function AiDemo() {
         </div>
       </div>
 
-      <style>{`
-        @keyframes blink { 50% { opacity: 0; } }
-        @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.5;transform:scale(0.75)} }
-      `}</style>
+      <style>{`@keyframes blink { 50% { opacity: 0; } } @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.5;transform:scale(0.75)} }`}</style>
     </div>
   );
 }
 
 // ─── Capability card ───
-function CapCard({ icon, title, desc, bg, color }) {
+function CapCard({ icon, title, desc, bg }: any) {
   return (
-    <div
-      className="rounded-2xl p-6 border transition-all duration-300 hover:-translate-y-1 hover:shadow-lg"
-      style={{ background: bg, borderColor: "#e8e6f5" }}
-    >
-      <div
-        className="w-12 h-12 rounded-xl flex items-center justify-center mb-4"
-        style={{ background: "white", boxShadow: "0 2px 12px rgba(0,0,0,0.07)" }}
-      >
+    <div className="rounded-2xl p-6 border transition-all duration-300 hover:-translate-y-1 hover:shadow-lg" style={{ background: bg, borderColor: "#e8e6f5" }}>
+      <div className="w-12 h-12 rounded-xl flex items-center justify-center mb-4" style={{ background: "white", boxShadow: "0 2px 12px rgba(0,0,0,0.07)" }}>
         {icon}
       </div>
       <h3 className="text-lg font-semibold mb-2" style={{ color: "#1a1830" }}>{title}</h3>
@@ -212,13 +162,10 @@ function CapCard({ icon, title, desc, bg, color }) {
 }
 
 // ─── How it works step ───
-function Step({ num, title, desc, color }) {
+function Step({ num, title, desc, color }:any) {
   return (
     <div className="flex gap-5 items-start">
-      <div
-        className="w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0 font-bold text-sm text-white"
-        style={{ background: `linear-gradient(135deg,${color},${color}99)`, boxShadow: `0 4px 14px ${color}40` }}
-      >
+      <div className="w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0 font-bold text-sm text-white" style={{ background: `linear-gradient(135deg,${color},${color}99)`, boxShadow: `0 4px 14px ${color}40` }}>
         {num}
       </div>
       <div>
@@ -244,16 +191,10 @@ export default function AIAssistant() {
           }}
         />
         {/* Glow */}
-        <div
-          className="absolute inset-0 pointer-events-none"
-          style={{ background: "radial-gradient(ellipse 70% 50% at 50% 0%,rgba(120,110,255,0.25) 0%,transparent 60%)" }}
-        />
+        <div className="absolute inset-0 pointer-events-none" style={{ background: "radial-gradient(ellipse 70% 50% at 50% 0%,rgba(120,110,255,0.25) 0%,transparent 60%)" }}/>
 
         <div className="relative z-10">
-          <span
-            className="inline-flex items-center gap-2 text-xs font-semibold tracking-widest uppercase rounded-full mb-6 px-4 py-1.5"
-            style={{ background: "rgba(255,255,255,0.12)", border: "1px solid rgba(255,255,255,0.2)", backdropFilter: "blur(8px)" }}
-          >
+          <span className="inline-flex items-center gap-2 text-xs font-semibold tracking-widest uppercase rounded-full mb-6 px-4 py-1.5" style={{ background: "rgba(255,255,255,0.12)", border: "1px solid rgba(255,255,255,0.2)", backdropFilter: "blur(8px)" }}>
             <span className="w-1.5 h-1.5 rounded-full" style={{ background: "#38c9b0", animation: "pulse 1.5s infinite" }} />
             Powered by AI
           </span>
@@ -267,12 +208,12 @@ export default function AIAssistant() {
 
           <div className="mt-8 flex gap-4 justify-center">
             <Link to="/register">
-              <button className="px-6 py-2 bg-indigo-500 hover:bg-indigo-600 transition rounded-full text-lg font-semibold">
+              <button className="px-6 py-2 bg-indigo-500 hover:bg-indigo-600 transition rounded-full text-lg font-semibold cursor-pointer">
                 Try It Free
               </button>
             </Link>
             <Link to="/login">
-              <button className="px-6 py-2 border-2 border-white hover:bg-white hover:text-gray-900 transition rounded-full text-lg font-semibold">
+              <button className="px-6 py-2 border-2 border-white hover:bg-white hover:text-gray-900 transition rounded-full text-lg font-semibold cursor-pointer">
                 Log In
               </button>
             </Link>
@@ -285,9 +226,7 @@ export default function AIAssistant() {
         <div className="text-center mb-12">
           <p className="text-xs font-bold tracking-widest uppercase mb-3" style={{ color: "#5a50c8" }}>Live Demo</p>
           <h2 className="text-3xl md:text-5xl font-semibold mb-4">See the AI in action</h2>
-          <p className="text-base max-w-lg mx-auto" style={{ color: "#6b6880" }}>
-            Pick a task below and watch Rainbow AI respond in real time.
-          </p>
+          <p className="text-base max-w-lg mx-auto" style={{ color: "#6b6880" }}>Pick a task below and watch Rainbow AI respond in real time.</p>
         </div>
         <AiDemo />
       </div>
@@ -297,9 +236,7 @@ export default function AIAssistant() {
         <div className="text-center mb-12">
           <p className="text-xs font-bold tracking-widest uppercase mb-3" style={{ color: "#5a50c8" }}>Capabilities</p>
           <h2 className="text-3xl md:text-5xl font-semibold mb-4">Everything the AI can do</h2>
-          <p className="text-base max-w-lg mx-auto" style={{ color: "#6b6880" }}>
-            One assistant. Endless ways to help you write.
-          </p>
+          <p className="text-base max-w-lg mx-auto" style={{ color: "#6b6880" }}>One assistant. Endless ways to help you write.</p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 max-w-6xl mx-auto">
@@ -350,9 +287,7 @@ export default function AIAssistant() {
       <div className="flex flex-col md:flex-row justify-between items-center gap-16 px-8 md:px-20 py-20">
         <div className="md:w-1/2">
           <p className="text-xs font-bold tracking-widest uppercase mb-3" style={{ color: "#5a50c8" }}>How it works</p>
-          <h2 className="text-3xl md:text-4xl font-semibold mb-10" style={{ color: "#1a1830" }}>
-            AI that works<br />inside your notebook
-          </h2>
+          <h2 className="text-3xl md:text-4xl font-semibold mb-10" style={{ color: "#1a1830" }}>AI that works<br />inside your notebook</h2>
           <div className="flex flex-col gap-8">
             <Step num="1" color="#5a50c8" title="Write naturally"
               desc="Just write in your notebook as you normally would. No special commands, no switching apps." />
@@ -367,10 +302,7 @@ export default function AIAssistant() {
 
         {/* Visual panel */}
         <div className="md:w-1/2 w-full">
-          <div
-            className="rounded-2xl overflow-hidden border"
-            style={{ borderColor: "#e8e6f5", boxShadow: "0 8px 40px rgba(90,80,200,0.1)" }}
-          >
+          <div className="rounded-2xl overflow-hidden border" style={{ borderColor: "#e8e6f5", boxShadow: "0 8px 40px rgba(90,80,200,0.1)" }}>
             {/* Chrome */}
             <div className="flex items-center gap-2 px-5 py-3 border-b" style={{ background: "#f8f7ff", borderColor: "#e8e6f5" }}>
               <span className="w-2.5 h-2.5 rounded-full" style={{ background: "#ff5f57" }} />
@@ -382,25 +314,14 @@ export default function AIAssistant() {
             {/* Notebook body */}
             <div className="flex" style={{ minHeight: "360px" }}>
               {/* Paper */}
-              <div
-                className="flex-1 p-6 relative"
-                style={{
-                  background: "white",
-                  backgroundImage: "repeating-linear-gradient(to bottom,transparent 0,transparent 27px,#eeecff 27px,#eeecff 28px)",
-                }}
-              >
+              <div className="flex-1 p-6 relative" style={{background: "white", backgroundImage: "repeating-linear-gradient(to bottom,transparent 0,transparent 27px,#eeecff 27px,#eeecff 28px)",}}>
                 {/* Red margin */}
                 <div className="absolute top-0 bottom-0 left-14 w-px" style={{ background: "rgba(255,79,56,0.25)" }} />
                 <div className="pl-8">
-                  <p className="text-sm leading-[28px] mb-0" style={{ color: "#1a1830" }}>
-                    The morning light came in sideways through the blinds,
-                  </p>
+                  <p className="text-sm leading-[28px] mb-0" style={{ color: "#1a1830" }}>The morning light came in sideways through the blinds,</p>
                   {/* Highlighted text */}
                   <p className="text-sm leading-[28px]">
-                    <span
-                      className="rounded px-0.5"
-                      style={{ background: "rgba(90,80,200,0.15)", color: "#1a1830", borderBottom: "2px solid #5a50c8" }}
-                    >
+                    <span className="rounded px-0.5" style={{ background: "rgba(90,80,200,0.15)", color: "#1a1830", borderBottom: "2px solid #5a50c8" }}>
                       casting long amber stripes across the floor that reminded her of something she couldn't quite place.
                     </span>
                   </p>
@@ -418,43 +339,24 @@ export default function AIAssistant() {
                   }}
                 >
                   {["Continue", "Expand", "Rephrase"].map((a, i) => (
-                    <button
-                      key={a}
-                      className="text-xs font-semibold rounded-lg px-3 py-1.5 transition-all duration-200"
-                      style={{
-                        background: i === 0 ? "#5a50c8" : "#f0eeff",
-                        color: i === 0 ? "white" : "#5a50c8",
-                      }}
-                    >
-                      {a}
+                    <button key={a} className="text-xs font-semibold rounded-lg px-3 py-1.5 transition-all duration-200 cursor-pointer"
+                      style={{background: i === 0 ? "#5a50c8" : "#f0eeff",color: i === 0 ? "white" : "#5a50c8",}}>{a}
                     </button>
                   ))}
                 </div>
               </div>
 
               {/* AI sidebar */}
-              <div
-                className="w-52 flex-shrink-0 p-4 border-l flex flex-col gap-3"
-                style={{ background: "#f8f7ff", borderColor: "#e8e6f5" }}
-              >
+              <div className="w-52 flex-shrink-0 p-4 border-l flex flex-col gap-3" style={{ background: "#f8f7ff", borderColor: "#e8e6f5" }}>
                 <p className="text-xs font-bold tracking-widest uppercase" style={{ color: "#5a50c8" }}>AI Suggestion</p>
-                <div
-                  className="rounded-xl p-3 text-xs leading-relaxed border"
-                  style={{ background: "white", borderColor: "#e8e6f5", color: "#1a1830" }}
-                >
+                <div className="rounded-xl p-3 text-xs leading-relaxed border" style={{ background: "white", borderColor: "#e8e6f5", color: "#1a1830" }}>
                   "…casting long amber stripes across the floor — tiger-light, she used to call it as a child, though she'd long since forgotten why."
                 </div>
                 <div className="flex gap-2 mt-auto">
-                  <button
-                    className="flex-1 text-xs font-semibold py-2 rounded-lg text-white"
-                    style={{ background: "linear-gradient(135deg,#5a50c8,#3b3598)" }}
-                  >
+                  <button className="flex-1 text-xs font-semibold py-2 rounded-lg text-white cursor-pointer" style={{ background: "linear-gradient(135deg,#5a50c8,#3b3598)" }}>
                     Accept
                   </button>
-                  <button
-                    className="flex-1 text-xs font-semibold py-2 rounded-lg border"
-                    style={{ borderColor: "#e8e6f5", color: "#6b6880" }}
-                  >
+                  <button className="flex-1 text-xs font-semibold py-2 rounded-lg border cursor-pointer" style={{ borderColor: "#e8e6f5", color: "#6b6880" }}>
                     Try again
                   </button>
                 </div>
@@ -472,10 +374,8 @@ export default function AIAssistant() {
             { num: "6",   label: "AI actions",     sub: "Built into every notebook" },
             { num: "∞",   label: "Ideas generated", sub: "Limited only by imagination" },
           ].map(s => (
-            <div key={s.num}
-              className="rounded-2xl p-8"
-              style={{ background: "rgba(255,255,255,0.1)", border: "1px solid rgba(255,255,255,0.15)", backdropFilter: "blur(8px)" }}
-            >
+            <div key={s.num} className="rounded-2xl p-8"
+              style={{ background: "rgba(255,255,255,0.1)", border: "1px solid rgba(255,255,255,0.15)", backdropFilter: "blur(8px)" }}>
               <div className="text-5xl font-bold mb-2 bg-gradient-to-r from-red-400 via-yellow-400 via-green-400 via-blue-400 to-purple-400 text-transparent bg-clip-text">
                 {s.num}
               </div>
@@ -489,17 +389,14 @@ export default function AIAssistant() {
       {/* ── CTA ── */}
       <div className="px-8 md:px-20 py-20 text-center" style={{ background: "#f8f7ff" }}>
         <p className="text-xs font-bold tracking-widest uppercase mb-4" style={{ color: "#5a50c8" }}>Get started today</p>
-        <h2 className="text-3xl md:text-5xl font-semibold mb-4" style={{ color: "#1a1830" }}>
-          Write smarter,<br />
+        <h2 className="text-3xl md:text-5xl font-semibold mb-4" style={{ color: "#1a1830" }}>Write smarter,<br />
           <span className="bg-gradient-to-r from-indigo-500 to-purple-500 text-transparent bg-clip-text">
             not harder.
           </span>
         </h2>
-        <p className="text-base mb-8 max-w-md mx-auto" style={{ color: "#6b6880" }}>
-          The AI assistant is built into every notebook. Start free and experience writing like never before.
-        </p>
+        <p className="text-base mb-8 max-w-md mx-auto" style={{ color: "#6b6880" }}>The AI assistant is built into every notebook. Start free and experience writing like never before.</p>
         <Link to="/register">
-          <button className="px-8 py-3 bg-indigo-500 hover:bg-indigo-600 transition rounded-full text-lg font-semibold text-white shadow-lg hover:shadow-xl hover:-translate-y-0.5 duration-200">
+          <button className="px-8 py-3 bg-indigo-500 hover:bg-indigo-600 transition rounded-full text-lg font-semibold text-white shadow-lg hover:shadow-xl hover:-translate-y-0.5 duration-200 cursor-pointer">
             Open my notebook →
           </button>
         </Link>

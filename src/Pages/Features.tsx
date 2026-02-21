@@ -117,20 +117,16 @@ const faqs = [
   { q: "Can I import my existing notes?", a: "Yes — import from Notion, Evernote, Apple Notes, or plain text/markdown files with one click." },
 ];
 
-function FAQItem({ q, a }) {
+function FAQItem({ q, a }: any) {
   const [open, setOpen] = React.useState(false);
   return (
-    <div
-      className="border rounded-2xl overflow-hidden transition-all duration-300 cursor-pointer"
+    <div className="border rounded-2xl overflow-hidden transition-all duration-300 cursor-pointer"
       style={{ borderColor: open ? "#c4b5fd" : "#e8e6f5", background: open ? "#faf9ff" : "white" }}
-      onClick={() => setOpen(o => !o)}
-    >
+      onClick={() => setOpen(o => !o)}>
       <div className="flex items-center justify-between px-6 py-5">
         <span className="font-semibold text-base" style={{ color: "#1a1830" }}>{q}</span>
-        <span
-          className="w-7 h-7 rounded-full flex items-center justify-center flex-shrink-0 ml-4 transition-all duration-300"
-          style={{ background: open ? "#5a50c8" : "#f0eeff", transform: open ? "rotate(45deg)" : "none" }}
-        >
+        <span className="w-7 h-7 rounded-full flex items-center justify-center flex-shrink-0 ml-4 transition-all duration-300"
+          style={{ background: open ? "#5a50c8" : "#f0eeff", transform: open ? "rotate(45deg)" : "none" }}>
           <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
             <line x1="6" y1="1" x2="6" y2="11" stroke={open ? "white" : "#5a50c8"} strokeWidth="1.8" strokeLinecap="round"/>
             <line x1="1" y1="6" x2="11" y2="6" stroke={open ? "white" : "#5a50c8"} strokeWidth="1.8" strokeLinecap="round"/>
@@ -151,31 +147,22 @@ export default function Features() {
     <>
       {/* ── Hero ── */}
       <div className="flex flex-col items-center justify-center min-h-[60vh] bg-gradient-to-br from-gray-400 to-indigo-800 text-white py-20 px-8 text-center">
-        <span
-          className="inline-flex items-center gap-2 text-xs font-semibold tracking-widest uppercase rounded-full mb-6 px-4 py-1.5"
-          style={{ background: "rgba(255,255,255,0.12)", border: "1px solid rgba(255,255,255,0.2)", backdropFilter: "blur(8px)" }}
-        >
-          <span className="w-1.5 h-1.5 rounded-full bg-teal-300" />
-          Everything you need
+        <span className="inline-flex items-center gap-2 text-xs font-semibold tracking-widest uppercase rounded-full mb-6 px-4 py-1.5"
+          style={{ background: "rgba(255,255,255,0.12)", border: "1px solid rgba(255,255,255,0.2)", backdropFilter: "blur(8px)" }}>
+          <span className="w-1.5 h-1.5 rounded-full bg-teal-300" />Everything you need
         </span>
 
-        <h1 className="text-5xl font-bold tracking-wide mb-4 animate-fadeIn">
-          Packed with powerful features
-        </h1>
+        <h1 className="text-5xl font-bold tracking-wide mb-4 animate-fadeIn">Packed with powerful features</h1>
         <p className="text-lg text-gray-300 max-w-xl mx-auto animate-fadeIn delay-150">
           From AI-powered writing to beautiful covers and real notebook feel — Rainbow Notes has everything to make writing your favourite habit.
         </p>
 
         <div className="mt-8 flex gap-4 justify-center">
           <Link to="/register">
-            <button className="px-6 py-2 bg-indigo-500 hover:bg-indigo-600 transition rounded-full text-lg font-semibold">
-              Get Started Free
-            </button>
+            <button className="px-6 py-2 bg-indigo-500 hover:bg-indigo-600 transition rounded-full text-lg font-semibold cursor-pointer">Get Started Free</button>
           </Link>
           <Link to="/login">
-            <button className="px-6 py-2 border-2 border-white hover:bg-white hover:text-gray-900 transition rounded-full text-lg font-semibold">
-              Log In
-            </button>
+            <button className="px-6 py-2 border-2 border-white hover:bg-white hover:text-gray-900 transition rounded-full text-lg font-semibold cursor-pointer">Log In</button>
           </Link>
         </div>
       </div>
@@ -185,32 +172,21 @@ export default function Features() {
         <div className="text-center mb-14">
           <p className="text-xs font-bold tracking-widest uppercase mb-3" style={{ color: "#5a50c8" }}>Features</p>
           <h2 className="text-3xl md:text-5xl font-semibold mb-4">What makes Rainbow Notes special</h2>
-          <p className="text-base max-w-xl mx-auto" style={{ color: "#6b6880" }}>
-            Every feature is crafted to make writing feel natural, intelligent, and beautiful.
-          </p>
+          <p className="text-base max-w-xl mx-auto" style={{ color: "#6b6880" }}>Every feature is crafted to make writing feel natural, intelligent, and beautiful.</p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
           {features.map((f) => (
-            <div
-              key={f.title}
+            <div key={f.title}
               className={`bg-gradient-to-br ${f.gradient} rounded-2xl p-7 border transition-all duration-300 hover:-translate-y-1 hover:shadow-lg group`}
-              style={{ borderColor: "#e8e6f5" }}
-            >
+              style={{ borderColor: "#e8e6f5" }}>
               {/* Icon + Badge row */}
               <div className="flex items-start justify-between mb-5">
-                <div
-                  className="w-14 h-14 rounded-xl flex items-center justify-center"
-                  style={{ background: "white", boxShadow: "0 2px 12px rgba(0,0,0,0.07)" }}
-                >
+                <div className="w-14 h-14 rounded-xl flex items-center justify-center"
+                  style={{ background: "white", boxShadow: "0 2px 12px rgba(0,0,0,0.07)" }}>
                   {f.icon}
                 </div>
-                <span
-                  className="text-xs font-semibold rounded-full px-3 py-1"
-                  style={{ background: f.badge.bg, color: f.badge.color }}
-                >
-                  {f.badge.label}
-                </span>
+                <span className="text-xs font-semibold rounded-full px-3 py-1" style={{ background: f.badge.bg, color: f.badge.color }}>{f.badge.label}</span>
               </div>
 
               <h3 className="text-xl font-semibold mb-2" style={{ color: "#1a1830" }}>{f.title}</h3>
@@ -240,9 +216,7 @@ export default function Features() {
         <div className="max-w-5xl mx-auto text-center mb-14">
           <p className="text-xs font-bold tracking-widest uppercase mb-3 text-indigo-300">Why choose us</p>
           <h2 className="text-3xl md:text-5xl font-semibold mb-4">Writing, reinvented</h2>
-          <p className="text-gray-300 max-w-lg mx-auto text-base">
-            Rainbow Notes combines the intimacy of a real notebook with the power of modern AI.
-          </p>
+          <p className="text-gray-300 max-w-lg mx-auto text-base">Rainbow Notes combines the intimacy of a real notebook with the power of modern AI.</p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto">
@@ -251,10 +225,8 @@ export default function Features() {
             { num: "10×", label: "Faster Writing", sub: "With AI suggestions" },
             { num: "100%", label: "Private & Secure", sub: "End-to-end encrypted" },
           ].map(s => (
-            <div key={s.num}
-              className="rounded-2xl p-8 text-center"
-              style={{ background: "rgba(255,255,255,0.1)", border: "1px solid rgba(255,255,255,0.15)", backdropFilter: "blur(8px)" }}
-            >
+            <div key={s.num} className="rounded-2xl p-8 text-center"
+              style={{ background: "rgba(255,255,255,0.1)", border: "1px solid rgba(255,255,255,0.15)", backdropFilter: "blur(8px)" }}>
               <div className="text-5xl font-bold mb-2 bg-gradient-to-r from-red-400 via-yellow-400 via-green-400 via-blue-400 to-purple-400 text-transparent bg-clip-text">
                 {s.num}
               </div>
@@ -285,11 +257,9 @@ export default function Features() {
             Start writing today.
           </span>
         </h2>
-        <p className="text-base mb-8 max-w-md mx-auto" style={{ color: "#6b6880" }}>
-          Free to start. No credit card required. Just you and the page.
-        </p>
+        <p className="text-base mb-8 max-w-md mx-auto" style={{ color: "#6b6880" }}>Free to start. No credit card required. Just you and the page.</p>
         <Link to="/register">
-          <button className="px-8 py-3 bg-indigo-500 hover:bg-indigo-600 transition rounded-full text-lg font-semibold text-white shadow-lg hover:shadow-xl hover:-translate-y-0.5 duration-200">
+          <button className="px-8 py-3 bg-indigo-500 hover:bg-indigo-600 transition rounded-full text-lg font-semibold text-white shadow-lg hover:shadow-xl hover:-translate-y-0.5 duration-200 cursor-pointer">
             Create my notebook →
           </button>
         </Link>
