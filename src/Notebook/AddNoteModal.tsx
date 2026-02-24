@@ -9,8 +9,9 @@ interface AddNoteModalProps {
 
 const AddNoteModal = ({ onClose }: AddNoteModalProps) => {
   const [title, setTitle] = useState("");
-  const [pages, setPages] = useState(1);
+  const [pages, setPages] = useState(2);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
 
   const user = useSelector((state: any) => state.auth.user);
   const userId = user?.id;
@@ -42,39 +43,37 @@ const AddNoteModal = ({ onClose }: AddNoteModalProps) => {
     }
   };
 
+  // Even Number Input Validation
+  const handlePageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const value = parseInt(e.target.value);
+  
+  if (value % 2 !== 0) {
+    setError('Please enter an even number');
+    return;
+    setError('');
+  } else {
+    setPages(value);
+    setError('');
+  }
+};
+
   return (
     <div className="fixed inset-0 bg-gray-100/90 z-50 flex items-center justify-center">
       <div className="bg-white p-6 rounded-xl shadow-lg w-10/12 max-w-md">
         <h2 className="text-xl font-bold mb-4">Create New Note</h2>
         <div className="mb-4">
           <label className="block text-gray-700 text-sm font-medium">Note Title</label>
-          <input
-            type="text"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-            className="w-full mt-1 px-3 py-2 border rounded outline-0"
-            placeholder="Enter note title"
-          />
+          <input type="text" value={title} onChange={(e) => setTitle(e.target.value)} className="w-full mt-1 px-3 py-2 border rounded outline-0" placeholder="Enter note title"/>
         </div>
         <div className="mb-6">
           <label className="block text-gray-700 text-sm font-medium">Number of Pages</label>
-          <input
-            type="number"
-            value={pages}
-            min={1}
-            onChange={(e) => setPages(parseInt(e.target.value))}
-            className="w-full mt-1 px-3 py-2 border rounded outline-0"
-            placeholder="e.g. 5"
-          />
+          <input type="number" value={pages} min={2} onChange={handlePageChange} className="w-full mt-1 px-3 py-2 border rounded outline-0" placeholder="e.g. 5"/>
+          {error && (<p className="text-red-500 text-sm mt-1">{error}</p>)}
         </div>
 
         <div className="flex justify-end gap-4">
           <button onClick={onClose} className="text-gray-500 hover:underline cursor-pointer">Cancel</button>
-          <button
-            onClick={createNewNote}
-            disabled={loading}
-            className="bg-indigo-500 text-white px-4 py-2 rounded hover:bg-indigo-600 cursor-pointer"
-          >
+          <button onClick={createNewNote} disabled={loading} className="bg-indigo-500 text-white px-4 py-2 rounded hover:bg-indigo-600 cursor-pointer">
             {loading ? "Creating..." : "Create"}
           </button>
         </div>

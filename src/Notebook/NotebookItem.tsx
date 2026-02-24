@@ -7,7 +7,6 @@ import { Switch } from "@mui/material";
 import Page from "./Page";
 import { getNoteById } from "../shared/services/commonService";
 import img from '../assets/book-cover1.png';
-import NoteLoader from "../Common/Loader/Loader";
 declare global {
   interface Window {
     $: any;
@@ -31,6 +30,15 @@ const NotebookItem = () => {
     setChecked(event.target.checked);
     setShowControl(!showControl);
   };
+
+  const handleContentChange = (index: number, content: string) => {
+  setNoteContent((prev) => {
+    const updated = [...prev];
+    updated[index] = { type: "text", content };
+    return updated;
+  });
+};
+
 
     // Get note details
   useEffect(() => {
@@ -152,12 +160,12 @@ const NotebookItem = () => {
   const pages = useMemo(() => {
     if (!noOfPages) return null;
     return Array.from({ length: noOfPages }).map((_, i) => (
-      <Page key={i} index={i} pageContent={noteContent[i]} />
+      <Page key={i} index={i} pageContent={noteContent[i]} onContentChange={handleContentChange}/>
     ));
   }, [noOfPages]);
 
   if (!noOfPages) {
-    return <NoteLoader/>
+    return <div>Loading notebook...</div>;
   }
 
 
@@ -213,4 +221,4 @@ const NotebookItem = () => {
   );
 };
 
-export default NotebookItem;
+export default NotebookItem
