@@ -492,7 +492,7 @@ const NotebookItem = () => {
   const [currentPageText, setCurrentPageText] = useState("");
 
   // ── Responsive isMobile ──
-  const [isMobileState, setIsMobileState] = useState(window.innerWidth < 900);
+  const [, setIsMobileState] = useState(window.innerWidth < 900);
   useEffect(() => {
     const onResize = () => setIsMobileState(window.innerWidth < 900);
     window.addEventListener("resize", onResize);
