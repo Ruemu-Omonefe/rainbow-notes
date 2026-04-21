@@ -2,7 +2,7 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { setLogoutHandler } from "../apiClient/apiClient";
+import { setLogoutHandler } from "../apiClient/logoutHandler";
 import { AppDispatch } from "../../store";
 import { logout } from "../../store/authSlice";
 

@@ -1,8 +1,58 @@
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Poppins:wght@300;400;500;600;700;800&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
 @import "tailwindcss";
 
 body{
   font-family: Poppins, Montserrat, sans-serif;
+  margin: 0;
+}
+
+#root {
+  min-height: 100vh;
+}
+
+.route-loading {
+  min-height: 100vh;
+  padding: 1.5rem;
+  background: linear-gradient(180deg, #f7f7fb 0%, #ffffff 100%);
+}
+
+.route-loading__line,
+.route-loading__block {
+  border-radius: 0.75rem;
+  background: linear-gradient(90deg, #ececf4 25%, #f8f8fc 50%, #ececf4 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.2s linear infinite;
+}
+
+.route-loading__line {
+  height: 1.25rem;
+  margin-bottom: 1rem;
+}
+
+.route-loading__line--title {
+  width: min(18rem, 60%);
+  height: 2.5rem;
+}
+
+.route-loading__block {
+  width: 100%;
+  margin-bottom: 1rem;
+}
+
+.route-loading__block--hero {
+  height: min(50vh, 24rem);
+}
+
+.route-loading__block--content {
+  height: 12rem;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
 }
 
 @layer utilities {

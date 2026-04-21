@@ -1,4 +1,5 @@
 import axios from "axios";
+import { runLogoutHandler } from "./logoutHandler";
 
 const api = axios.create({
     baseURL: import.meta.env.VITE_API_URL,
@@ -6,13 +7,6 @@ const api = axios.create({
         "Content-Type": "application/json",
     },
 });
-
-let logoutHandler: (() => void) | null = null;
-
-export const setLogoutHandler = (handler: () => void) => {
-  logoutHandler = handler;
-};
-
 
 // Request interceptor to include the token in headers
 api.interceptors.request.use(
@@ -37,8 +31,8 @@ api.interceptors.response.use(
         // Handle errors globally
         if (error.response) {
             // console.error("API Error:", error);
-            if (error.response?.status === 401 && logoutHandler) {
-                logoutHandler(); 
+            if (error.response?.status === 401) {
+                runLogoutHandler();
             }
 
         } else {

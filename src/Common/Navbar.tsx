@@ -1,8 +1,25 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import MenuIcon from "@mui/icons-material/Menu";
-import CloseIcon from "@mui/icons-material/Close";
 import logo from "../assets/logo.png";
+
+function MenuSvg() {
+  return (
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+      <path d="M4 7H20" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+      <path d="M4 12H20" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+      <path d="M4 17H20" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+    </svg>
+  );
+}
+
+function CloseSvg() {
+  return (
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+      <path d="M6 6L18 18" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+      <path d="M18 6L6 18" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+    </svg>
+  );
+}
 
 export default function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -35,7 +52,7 @@ export default function Header() {
 
       {/* Mobile Menu Button */}
       <button className="md:hidden text-gray-500" onClick={() => setMenuOpen(!menuOpen)}>
-        {menuOpen ? <CloseIcon/> : <MenuIcon/>}
+        {menuOpen ? <CloseSvg /> : <MenuSvg />}
       </button>
 
       {/* Mobile Menu */}

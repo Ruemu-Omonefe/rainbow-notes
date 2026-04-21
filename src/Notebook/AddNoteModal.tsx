@@ -76,6 +76,7 @@ const AddNoteModal = ({ onClose }: AddNoteModalProps) => {
           <button onClick={createNewNote} disabled={loading} className="bg-indigo-500 text-white px-4 py-2 rounded hover:bg-indigo-600 cursor-pointer">
             {loading ? "Creating..." : "Create"}
           </button>
+          button
         </div>
       </div>
     </div>
@@ -83,3 +84,5 @@ const AddNoteModal = ({ onClose }: AddNoteModalProps) => {
 };
 
 export default AddNoteModal;
+
+

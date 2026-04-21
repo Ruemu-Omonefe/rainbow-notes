@@ -7,6 +7,7 @@ import { Switch } from "@mui/material";
 import Page from "./Page";
 import { getNoteById } from "../shared/services/commonService";
 import img from '../assets/book-cover1.png';
+import { loadTurnDependencies } from "../shared/utils/loadTurnDependencies";
 declare global {
   interface Window {
     $: any;
@@ -24,6 +25,7 @@ const NotebookItem = () => {
   const [noOfPages, setNoOfPages] = useState<number | null>(null);
   const [coverImage, setCoverImage] = useState<string>("");
   const [noteContent, setNoteContent] = useState<{ type: string; content: string }[]>([]);
+  const [turnReady, setTurnReady] = useState(false);
 
 
   const handleControlChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -61,26 +63,38 @@ const NotebookItem = () => {
 
   useEffect(() => {
     if (!noOfPages) return;  // Wait until noOfPages is set
+    let isCancelled = false;
 
-    if (notebookRef.current && window.$ && window.$.fn.turn) {
-      const $el = window.$(notebookRef.current);
+    const initializeTurn = async () => {
+      try {
+        await loadTurnDependencies();
+        if (isCancelled || !notebookRef.current || !window.$?.fn?.turn) return;
 
-      if (!$el.data("initialized")) {
-        const containerHeight = notebookRef.current?.offsetHeight || 600;
-        $el.turn({
-          width: 1200,
-          height: containerHeight,
-          autoCenter: true,
-          display: isMobile ? "single" : "double",
-          elevation: 50,
-          gradients: true,
-          duration: 1000,
-          acceleration: true,
-        });
+        const $el = window.$(notebookRef.current);
 
-        $el.data("initialized", true);
+        if (!$el.data("initialized")) {
+          const containerHeight = notebookRef.current?.offsetHeight || 600;
+          $el.turn({
+            width: 1200,
+            height: containerHeight,
+            autoCenter: true,
+            display: isMobile ? "single" : "double",
+            elevation: 50,
+            gradients: true,
+            duration: 1000,
+            acceleration: true,
+          });
+
+          $el.data("initialized", true);
+        }
+
+        setTurnReady(true);
+      } catch (error) {
+        console.error("Failed to load notebook viewer dependencies:", error);
       }
-    }
+    };
+
+    void initializeTurn();
 
     if (!isMobile) {
       // Edge click navigation for desktop(added manually as original functionality refused to work)
@@ -118,6 +132,7 @@ const NotebookItem = () => {
       el?.addEventListener("mousemove", handleMouseMove);
 
       return () => {
+        isCancelled = true;
         el?.removeEventListener("click", handleEdgeClick);
         el?.removeEventListener("mousemove", handleMouseMove);
         if (notebookRef.current && window.$) {
@@ -130,6 +145,10 @@ const NotebookItem = () => {
         }
       };
     }
+
+    return () => {
+      isCancelled = true;
+    };
   }, [isMobile, noOfPages]);
 
   // Prevent typing past last line(show user alert)
@@ -180,8 +199,8 @@ const NotebookItem = () => {
            {/* Controls */}
           {showControl && (
             <div className={styles.controls}>
-              <button onClick={() => window.$(notebookRef.current).turn("previous")}><ChevronLeftIcon /></button>
-              <button onClick={() => window.$(notebookRef.current).turn("next")}><ChevronRightIcon /></button>
+              <button disabled={!turnReady} onClick={() => window.$(notebookRef.current).turn("previous")}><ChevronLeftIcon /></button>
+              <button disabled={!turnReady} onClick={() => window.$(notebookRef.current).turn("next")}><ChevronRightIcon /></button>
             </div>
           )}
         </div>
