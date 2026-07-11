@@ -9,12 +9,13 @@ interface AddNoteModalProps {
 
 const AddNoteModal = ({ onClose }: AddNoteModalProps) => {
   const [title, setTitle] = useState("");
-  const [pages, setPages] = useState(2);
+  const [pages, setPages] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
   const user = useSelector((state: any) => state.auth.user);
   const userId = user?.id;
+  let isInvalid = false;
 
   const dispatch = useDispatch();
 
@@ -45,17 +46,25 @@ const AddNoteModal = ({ onClose }: AddNoteModalProps) => {
 
   // Even Number Input Validation
   const handlePageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-  const value = parseInt(e.target.value);
-  
-  if (value % 2 !== 0) {
-    setError('Please enter an even number');
-    return;
-    setError('');
-  } else {
+   const value = e.target.value;
+
+    if (value === "") {
+      setPages("");
+      setError("");
+      return;
+    }
+
+    const num = Number(value);
+
     setPages(value);
-    setError('');
-  }
-};
+
+    if (num % 2 !== 0) {
+      setError("Only even numbers are allowed");
+      isInvalid = true;
+    } else {
+      setError("");
+    }
+  };
 
   return (
     <div className="fixed inset-0 bg-gray-100/90 z-50 flex items-center justify-center">
@@ -73,10 +82,9 @@ const AddNoteModal = ({ onClose }: AddNoteModalProps) => {
 
         <div className="flex justify-end gap-4">
           <button onClick={onClose} className="text-gray-500 hover:underline cursor-pointer">Cancel</button>
-          <button onClick={createNewNote} disabled={loading} className="bg-indigo-500 text-white px-4 py-2 rounded hover:bg-indigo-600 cursor-pointer">
+          <button onClick={createNewNote} disabled={loading || (isInvalid && !title)} className="bg-indigo-500 text-white px-4 py-2 rounded hover:bg-indigo-600 cursor-pointer">
             {loading ? "Creating..." : "Create"}
           </button>
-          button
         </div>
       </div>
     </div>

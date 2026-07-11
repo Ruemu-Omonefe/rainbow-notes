@@ -40,6 +40,19 @@ const NotebookItem = () => {
     return updated;
   });
 };
+useEffect(() => {
+  localStorage.setItem("notebook-content", JSON.stringify(noteContent));
+}, [noteContent]);
+
+
+// 
+useEffect(() => {
+  const savedNote = localStorage.getItem("notebook-content");
+
+  if (savedNote) {
+    setNoteContent(JSON.parse(savedNote));
+  }
+}, []);
 
 
     // Get note details
